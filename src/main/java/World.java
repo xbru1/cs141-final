@@ -12,7 +12,7 @@ public class World {
 	};
 
 	//public static HashMap<String, Tile> tileIndex = new HashMap
-	public static short[][] map = new short[Globals.mapSizeX][Globals.mapSizeY];
+	public static short[][] map = new short[Globals.mapSize.x][Globals.mapSize.y];
 
 	// List that tracks all entities
 	public static ArrayList<Entity> entities = new ArrayList<>();
@@ -88,9 +88,10 @@ public class World {
 	}
 
 	// Check whether or not a given tile can be walked on to
-	public static boolean isWalkable(int x, int y) {
+	public static boolean isWalkable(Vector2 position) {
+	//public static boolean isWalkable(int x, int y) {
 		//IO.println(entityAt(x, y));
-		if (entityAt(x, y) || x < 0 || x > Globals.mapSizeX - 1 || y < 0 || y > Globals.mapSizeY - 1 || !tileIndex[map[x][y]].walkable ) {
+		if (entityAt(position) || position.x < 0 || position.x > Globals.mapSize.x - 1 || position.y < 0 || position.y > Globals.mapSize.y - 1 || !tileIndex[map[position.x][position.y]].walkable ) {
 			return false;
 		} else {
 			return true;
@@ -98,14 +99,17 @@ public class World {
 	}
 	
 	// Returns whether or not there is an entity at the given x, y coordinate
-	public static boolean entityAt(int x, int y) {
-		return !(getEntityAt(x, y) == null);
+	//public static boolean entityAt(int x, int y) {
+	public static boolean entityAt(Vector2 position) {
+
+		return !(getEntityAt(position) == null);
 	}
 
 	// Returns the entity at a given position
-	public static Entity getEntityAt(int x, int y) {
+	//public static Entity getEntityAt(int x, int y) {
+	public static Entity getEntityAt(Vector2 position) {
 		for (int i = 0; i < entities.size(); i++) {
-			if (entities.get(i).x == x && entities.get(i).y == y) {
+			if (entities.get(i).position.x == position.x && entities.get(i).position.y == position.y) {
 				return entities.get(i);
 			}
 		}

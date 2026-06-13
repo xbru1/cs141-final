@@ -18,6 +18,7 @@ public class Globals {
 	// Size of the map in tiles
 	public static int mapSizeX = 64;
 	public static int mapSizeY = 32;
+	public static Vector2 mapSize = new Vector2(64, 32);
 
 	// Whether or not debug mode is on
 	public static boolean debug = false;

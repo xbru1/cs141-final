@@ -45,7 +45,7 @@ public class Crawler extends Application {
 		});
 
 		//World.entities.get(0).setSprite("./assets/enemy.png", tiles);
-		World.entities.get(0).x = 5;
+		World.entities.get(0).position.x = 5;
 
 		Text hello = Utils.text("Hello World!", 50, 50);
 		hello.setFont(Font.font("Helvetica", FontWeight.BOLD, 36));

@@ -25,7 +25,7 @@ public abstract class Entity implements Updateable, Renderable {
 	// Moving the entity
 	//public boolean move(int x, int y) {
 	public boolean move(Vector2 vector) {
-		if (!World.isWalkable(this.position.x - vector.x, this.position.y - vector.y)) {
+		if (!World.isWalkable(new Vector2(this.position.x - vector.x, this.position.y - vector.y))) {
 			return false;
 		} else {
 			this.position.x -= vector.x;

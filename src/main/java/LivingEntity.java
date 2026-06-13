@@ -78,11 +78,14 @@ public abstract class LivingEntity extends Entity {
 	// For now, attacking will involve simply attempting to move onto a tile with a LivingEntity on it
 	//public boolean move(int x, int y) {
 	public boolean move(Vector2 vector) {
-		if (World.getEntityAt(this.position.x - vector.x, this.position.y - vector.y) instanceof LivingEntity) {
+
+		if (World.getEntityAt(new Vector2(this.position.x - vector.x, this.position.y - vector.y)) instanceof LivingEntity) {
+		//if (World.getEntityAt(vector) instanceof LivingEntity) {
 			IO.println("Attacking");
 
 			// We have to cast here to tell the compiler that this will in fact be a LivingEntity
-			attack((LivingEntity) World.getEntityAt(this.position.x - vector.x, this.position.y - vector.y));
+			//attack((LivingEntity) World.getEntityAt(this.position.x - vector.x, this.position.y - vector.y));
+			attack((LivingEntity) World.getEntityAt(new Vector2(this.position.x - vector.x, this.position.y - vector.y)));
 			// We can't move and attack on the same turn, so we return before calling the super
 			return true;
 		}
@@ -92,7 +95,7 @@ public abstract class LivingEntity extends Entity {
 
 	// Calculate whether another LivingEntity is within this LivingEntity's attack range using the distance formula
 	public boolean canAttack(LivingEntity e) {
-		return (Math.abs(Math.sqrt(Math.pow(x - e.x, 2) + Math.pow(y - e.y, 2))) <= attackRange);
+		return (Math.abs(Math.sqrt(Math.pow(position.x - e.position.x, 2) + Math.pow(position.y - e.position.y, 2))) <= attackRange);
 	}
 
 	// Attack another entity to reduce their HP
