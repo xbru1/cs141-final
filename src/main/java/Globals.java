@@ -6,6 +6,13 @@ import javafx.scene.image.*;
 import javafx.stage.*;
 
 public class Globals {
+
+	// 
+	public enum GameStatus {
+		NORMAL,
+		LOADING,
+		MENU
+	}
 	
 	// Automatically determine the screen resolution
 	public static final int resolutionX = (int) Screen.getPrimary().getVisualBounds().getWidth();

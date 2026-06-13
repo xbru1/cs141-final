@@ -8,7 +8,6 @@ public class Enemy extends LivingEntity implements Updateable {
 	}
 
 	public void update() {
-		IO.println(this.hp);
 		super.update();
 	}
 }

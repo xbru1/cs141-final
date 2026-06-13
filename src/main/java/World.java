@@ -6,12 +6,14 @@ import java.util.*;
 
 public class World {
 	public static int turn = 0;
+
+	// The map is stored as a 2D array of shorts that each correspond to the index of this array
 	public static Tile[] tileIndex = new Tile[] { 
 		new Tile(false, "./assets/void.png"), 
 		new Tile(true, "./assets/stone.png") 
 	};
 
-	//public static HashMap<String, Tile> tileIndex = new HashMap
+	// 2D array of shorts that each serve as tile IDs
 	public static short[][] map = new short[Globals.mapSize.x][Globals.mapSize.y];
 
 	// List that tracks all entities
@@ -40,7 +42,6 @@ public class World {
 
 				// Remove entity it should be removed
 				if (entities.get(i).shouldRemove) {
-					//IO.println("REMOVING");
 					entities.set(i, null);
 				}
 			}
@@ -57,6 +58,7 @@ public class World {
 	}
 
 
+	// Generate the map using a Random
 	public static void generateMap(Random r) {
 		//Random r = new Random(seed);
 		// Minimum of 4 rooms per floor, up to 11 total rooms
@@ -88,14 +90,14 @@ public class World {
 	}
 
 	// Check whether or not a given tile can be walked on to
+	// A tile can be walked onto if it is walkable, not outside the bounds of the map, and does not contain an entity
 	public static boolean isWalkable(Vector2 position) {
-	//public static boolean isWalkable(int x, int y) {
-		//IO.println(entityAt(x, y));
-		if (entityAt(position) || position.x < 0 || position.x > Globals.mapSize.x - 1 || position.y < 0 || position.y > Globals.mapSize.y - 1 || !tileIndex[map[position.x][position.y]].walkable ) {
+		return !(entityAt(position) || position.x < 0 || position.x > Globals.mapSize.x - 1 || position.y < 0 || position.y > Globals.mapSize.y - 1 || !tileIndex[map[position.x][position.y]].walkable);
+		/*if (entityAt(position) || position.x < 0 || position.x > Globals.mapSize.x - 1 || position.y < 0 || position.y > Globals.mapSize.y - 1 || !tileIndex[map[position.x][position.y]].walkable) {
 			return false;
 		} else {
 			return true;
-		}
+		}*/
 	}
 	
 	// Returns whether or not there is an entity at the given x, y coordinate
@@ -106,7 +108,6 @@ public class World {
 	}
 
 	// Returns the entity at a given position
-	//public static Entity getEntityAt(int x, int y) {
 	public static Entity getEntityAt(Vector2 position) {
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i).position.x == position.x && entities.get(i).position.y == position.y) {

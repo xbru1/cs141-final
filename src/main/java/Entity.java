@@ -6,8 +6,11 @@ import java.awt.*;
 public abstract class Entity implements Updateable, Renderable {
 
 	protected Vector2 position;
-	public int x;
-	public int y;
+
+	//public int x;
+	//public int y;
+
+	// TODO: Make sprite protected and add an imagePath String to hide the implementation of this
 	public ImageView sprite;
 	public Group group;
 	
@@ -37,29 +40,21 @@ public abstract class Entity implements Updateable, Renderable {
 	// Code to run on each turn
 	// If overriding, always call super.update() AFTER any changes to hp, otherwise the sprite will not properly unrender when the entity is deleted from World.entities
 	public void update() {
-		// Update the location of the sprite
-		//this.sprite.setTranslateX(this.x * Globals.tileSize);
-		//this.sprite.setTranslateY(this.y * Globals.tileSize);
 
-		//position.setX(x);
-		//position.x = x;
-		//position.y = y;
-		this.x = position.x;
-		this.y = position.y;
-		//position.setY(y);
 		render();
-
+		// Call the code to run on removal if this entity should be removed
 		if (shouldRemove) {
 			remove();
 		}
-		//this.sprite.toFront();
 	}
 
+	// Code to render the Entity at the appropriate location on screen
 	public void render() {
 		this.sprite.setTranslateX(this.position.x * Globals.tileSize);
 		this.sprite.setTranslateY(this.position.y * Globals.tileSize);
 	}
 
+	// Code to run before the Entity is removed
 	public void remove() {
 		this.shouldRemove = true;
 		if (sprite != null) {
@@ -72,7 +67,6 @@ public abstract class Entity implements Updateable, Renderable {
 		}
 	}
 
-	//Globals.resolutionX / 2 - Globals.tileSize / 2, Globals.resolutionY / 2 - Globals.tileSize / 2, Globals.tileSize, Globals.tileSize
 	public void setSprite(String path, Group g) throws FileNotFoundException {
 
 		this.sprite = Utils.imageView(path, (Globals.resolutionX / 2 - Globals.tileSize / 2 - this.position.x * Globals.tileSize), (Globals.resolutionY / 2 - Globals.tileSize / 2 - this.position.y * Globals.tileSize), Globals.tileSize, Globals.tileSize, g);

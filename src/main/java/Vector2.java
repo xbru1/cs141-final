@@ -1,24 +1,32 @@
 // TODO: Refactor all code to use this class instead of x/y ints
 
 // Class that stores an (x, y) position
-// While we could use the built-in Point class, Point simply acts weird
+// While we could use the built-in Point class, Point does not work in the way I would like
 // For example, even though it stores positions as an int, getX() and getY() each return a double for some reason, which would result in an annoying amount of casting elsewhere
 public class Vector2 {
 
+	// The main fields
 	public int x = 0;
 	public int y = 0;
 
+	// Constructor
 	public Vector2(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
+	// Default Constructor
 	public Vector2() {
 		this(0, 0);
 	}
 
 	public String toString() {
 		return String.format("(%d,%d)", x, y);
+	}
+
+	// Distance formula
+	public static double distance (Vector2 a, Vector2 b) {
+		return Math.abs(Math.sqrt(Math.pow(b.x - a.x, 2) - Math.pow(b.y - a.y, 2)));
 	}
 
 	// Direction constants

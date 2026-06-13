@@ -18,7 +18,6 @@ public class Player extends LivingEntity {
 	}
 
 	// Moving the player involves moving the world around the player since the player is always in the center
-	//public boolean move(int x, int y) {
 	public boolean move(Vector2 vector) {
 		// Update the world (pass a turn) if the player successfully moved
 		if (super.move(vector) && !shouldRemove) {

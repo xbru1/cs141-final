@@ -30,13 +30,11 @@ public class Crawler extends Application {
 		// IO.println(System.getProperty("user.dir"));
 		//IO.println(Screen.getPrimary().getVisualBounds().getHeight());
 
-		// Testing enemy
+		// Testing enemy, remove once this is finished!
 		World.entities.add(new Enemy() {
 			public void update() {
 				this.experience = 100000;
-				//this.hp -= 12;
-				//IO.println(this.canAttack(World.player));
-				IO.println(this.x);
+				IO.println(this.position.toString());
 				if (World.turn % 2 == 0) {
 					this.move(new Vector2(0, -1));
 				}
@@ -44,7 +42,6 @@ public class Crawler extends Application {
 			}
 		});
 
-		//World.entities.get(0).setSprite("./assets/enemy.png", tiles);
 		World.entities.get(0).position.x = 5;
 
 		Text hello = Utils.text("Hello World!", 50, 50);
@@ -77,18 +74,18 @@ public class Crawler extends Application {
 
 	// Render the TileMap from World
 	public void renderMap() throws FileNotFoundException {
-		for (int i = 0; i < Globals.mapSizeX; i++) {
-			for (int o = 0; o < Globals.mapSizeY; o++) {
-				renderTile(World.tileIndex[World.map[i][o]].texturePath, i, o);
+		for (int x = 0; x < Globals.mapSizeX; x++) {
+			for (int y = 0; y < Globals.mapSizeY; y++) {
+				renderTile(World.tileIndex[World.map[x][y]].texturePath, x, y);
 			}
 		}
 		root.toFront();
 		World.player.sprite.toFront();
 		tiles.toBack();
 
-					//ImageView r = Utils.imageView("./assets/stone.png", Globals.tileSize * i + Globals.resolutionX / 2 - Globals.tileSize / 2, Globals.tileSize * o + Globals.resolutionY / 2 - Globals.tileSize / 2, Globals.tileSize, Globals.tileSize);
 	}
 
+	// Render a single tile
 	private void renderTile(String path, int i, int o) throws FileNotFoundException {
 		
 		ImageView r = Utils.imageView(path, Globals.tileSize * i + Globals.resolutionX / 2 - Globals.tileSize / 2, Globals.tileSize * o + Globals.resolutionY / 2 - Globals.tileSize / 2, Globals.tileSize, Globals.tileSize);

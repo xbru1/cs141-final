@@ -23,6 +23,7 @@ public abstract class LivingEntity extends Entity {
 		this.experience = experience;
 		calculateStats();
 		this.hp = this.maxHp;
+		this.position = new Vector2();
 	}
 
 	public LivingEntity(int experience, int maxHp, int defense, int attack, int attackRange) {
@@ -32,8 +33,7 @@ public abstract class LivingEntity extends Entity {
 		this.defense = defense;
 		this.attack = attack;
 		this.attackRange = attackRange;
-		this.x = 0;
-		this.y = 0;
+		this.position = new Vector2();
 	}
 
 	public LivingEntity(int experience, int maxHp, int defense, int attack) {
@@ -48,10 +48,6 @@ public abstract class LivingEntity extends Entity {
 		this(experience, maxHp, 5);
 	}
 
-	/*public LivingEntity(int experience) {
-		this(experience, 100);
-	}*/
-
 	public LivingEntity() {
 		this(0);
 	}
@@ -61,7 +57,6 @@ public abstract class LivingEntity extends Entity {
 		this.maxHp = (int) (level * maxHpBase * 50 / 100) + 3;
 		this.defense = (int) (level * defenseBase * 50 / 100) + 3;
 		this.attack = (int) (level * attackBase * 50 / 100) + 3;
-		//IO.println(level);
 	}
 
 	// Code to run on each turn
@@ -76,16 +71,14 @@ public abstract class LivingEntity extends Entity {
 	}
 
 	// For now, attacking will involve simply attempting to move onto a tile with a LivingEntity on it
-	//public boolean move(int x, int y) {
 	public boolean move(Vector2 vector) {
 
 		if (World.getEntityAt(new Vector2(this.position.x - vector.x, this.position.y - vector.y)) instanceof LivingEntity) {
-		//if (World.getEntityAt(vector) instanceof LivingEntity) {
 			IO.println("Attacking");
 
 			// We have to cast here to tell the compiler that this will in fact be a LivingEntity
-			//attack((LivingEntity) World.getEntityAt(this.position.x - vector.x, this.position.y - vector.y));
 			attack((LivingEntity) World.getEntityAt(new Vector2(this.position.x - vector.x, this.position.y - vector.y)));
+
 			// We can't move and attack on the same turn, so we return before calling the super
 			return true;
 		}
@@ -101,6 +94,8 @@ public abstract class LivingEntity extends Entity {
 	// Attack another entity to reduce their HP
 	public void attack(LivingEntity e) {
 		e.hp -= (int) (this.attack / e.defense) + 3;
-		IO.println("Attacked HP: " + e.hp);
+		if (Globals.debug) {
+			IO.println("Attacked HP: " + e.hp);
+		}
 	}
 }

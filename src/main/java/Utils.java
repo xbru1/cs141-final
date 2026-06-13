@@ -6,6 +6,7 @@ import javafx.scene.image.*;
 
 public class Utils {
 
+	// Rectangle helper
 	public static Rectangle rectangle(int x, int y, int width, int height) {
 		Rectangle r = new Rectangle();
 		r.setX(x);
@@ -16,6 +17,7 @@ public class Utils {
 		return r;
 	}	
 
+	// Text helper
 	public static Text text(String str, int x, int y) {
 		Text text = new Text(str);
 		text.setX(x);
@@ -25,6 +27,7 @@ public class Utils {
 		return text;
 	}
 
+	// ImageView helper
 	public static ImageView imageView(String path, int x, int y, int width, int height, Group g) throws FileNotFoundException {
 		Image image = new Image(new FileInputStream(path));
 		ImageView iv = new ImageView();
@@ -37,6 +40,7 @@ public class Utils {
 		return iv;
 	}
 
+	// Overload with a default group
 	public static ImageView imageView(String path, int x, int y, int width, int height) throws FileNotFoundException {
 		return imageView(path, x, y, width, height, Crawler.tiles);
 	}
