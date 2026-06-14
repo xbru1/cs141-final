@@ -11,13 +11,22 @@ public class Vector2 {
 
 	// Constructor
 	public Vector2(int x, int y) {
-		this.x = x;
-		this.y = y;
+		set(x, y);
 	}
 
 	// Default Constructor
 	public Vector2() {
 		this(0, 0);
+	}
+
+	public void set(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	public void set(Vector2 vector) {
+		this.x = vector.x;
+		this.y = vector.y;
 	}
 
 	public String toString() {
