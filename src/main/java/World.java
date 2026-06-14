@@ -7,14 +7,15 @@ import java.util.*;
 public class World {
 	public static int turn = 0;
 
-	// The map is stored as a 2D array of shorts that each correspond to the index of this array
+	// The map is stored as a 2D array of bytes that each correspond to the index of this array
 	public static Tile[] tileIndex = new Tile[] { 
 		new Tile(false, "./assets/void.png"), 
 		new Tile(true, "./assets/stone.png") 
 	};
 
-	// 2D array of shorts that each serve as tile IDs
-	public static short[][] map = new short[Globals.mapSize.x][Globals.mapSize.y];
+	// 2D array of bytes that each serve as tile IDs
+	// We're most likely not going to need more than 256 tile IDs, so using byte saves on memory
+	public static byte[][] map = new byte[Globals.mapSize.x][Globals.mapSize.y];
 
 	// List that tracks all entities
 	public static ArrayList<Entity> entities = new ArrayList<>();
@@ -56,72 +57,68 @@ public class World {
 
 	// Generate the map using a custom algorithm
 	public static void generateMap(Random r) {
+		// TODO: Split this into different modules
 		//Random r = new Random(seed);
-		// Minimum of 6 rooms per map, up to 11 total rooms
-		//int rooms = r.nextInt(6) + 6;
-		int rooms = 11;
+		// Minimum of 8 rooms per map, up to 15 total rooms
+		int rooms = r.nextInt(9) + 8;
+		//int rooms = 2;
 
 		// The first room always needs to be at (0, 0), as that is where the player spawns
 		//Vector2 roomPosition = new Vector2(0, 0);
-		Vector2 roomSize = new Vector2();
 		Vector2[] roomSizes = new Vector2[rooms];
 		Vector2[] roomPositions = new Vector2[rooms];
-		Vector2 roomPosition = new Vector2();
-		Vector2 lastRoomPosition = new Vector2();
-
 		roomPositions[0] = new Vector2(0, 0);
-		roomSizes[0] = new Vector2(5, 5);
+		roomSizes[0] = new Vector2(7, 7);
 
 		for (int i = 1; i < rooms; i++) {
-			roomSizes[i] = new Vector2(r.nextInt(5) + 5, r.nextInt(5) + 5);
+			roomSizes[i] = new Vector2(r.nextInt(7) + 3, r.nextInt(7) + 3);
 			roomPositions[i] = new Vector2(r.nextInt(Globals.mapSize.x  - roomSizes[i].x), r.nextInt(Globals.mapSize.y  - roomSizes[i].y));
 		}
+
+		// For testing purposes
+		roomPositions[1] = new Vector2(57, 25);
+		roomSizes[1] = new Vector2(7, 7);
 
 		// Generate rooms
 		for (int i = 0; i < rooms; i++) {
 			// Make corridors				
 			if (i != 0) {
-				int x = Math.min(roomPositions[i].x, roomPositions[i - 1].x);
-				int y = Math.min(roomPositions[i].y, roomPositions[i - 1].y);
+
+				IO.println("Making room with size " + roomSizes[i].toString() + " and position " + roomPositions[i].toString());
+				Vector2 pos = new Vector2(Math.min(roomPositions[i].x, roomPositions[i - 1].x), Math.min(roomPositions[i].y, roomPositions[i - 1].y));
+				Vector2 offset = new Vector2(r.nextInt(Math.min(roomSizes[i].x, roomSizes[i - 1].x)), r.nextInt(Math.min(roomSizes[i].y, roomSizes[i - 1].y)));
+				pos.add(offset);
+
+				//pos.add(offset);
+				//int x = Math.min(roomPositions[i].x, roomPositions[i - 1].x);
+				//int y = Math.min(roomPositions[i].y, roomPositions[i - 1].y);
 
 				// Connect the positions of the rooms together
-				// These four for loops go right/left and up/down as necessary to create corridors between rooms
+				// These four for loops go right/left and up/down as necessary to ensure there is a corridor between this room and the next
+				// We don't bother with any other corridors since they naturally overlap with each other to allow multiple routes between rooms
 
 				// Right
-				for(; x < Math.max(roomPositions[i].x, roomPositions[i - 1].x); x++) {
-					map[x][y] = 1;
+				for(; pos.x - offset.x < Math.max(roomPositions[i].x, roomPositions[i - 1].x); pos.x++) {
+					map[pos.x][pos.y] = 1;
 				}
 
 				// Down
-				for (; y < Math.max(roomPositions[i].y, roomPositions[i - 1].y); y++) {
-					map[x][y] = 1;
+				for (; pos.y - offset.y < Math.max(roomPositions[i].y, roomPositions[i - 1].y); pos.y++) {
+					map[pos.x][pos.y] = 1;
 				}
 
 				// Left
-				for(; x > Math.min(roomPositions[i].x, roomPositions[i - 1].x); x--) {
-					map[x][y] = 1;
+				for(; pos.x - offset.x > Math.min(roomPositions[i].x, roomPositions[i - 1].x); pos.x--) {
+					map[pos.x][pos.y] = 1;
 				}
 
 				// Up
-				for (; y > Math.min(roomPositions[i].y, roomPositions[i - 1].y); y--) {
-					map[x][y] = 1;
-				}
-
-
-
-				/*x = Math.max(roomPositions[i].x, roomPositions[i - 1].x);
-				for(; x > Math.max(roomPositions[i].x, roomPositions[i - 1].x) - Math.min(roomPositions[i].x, roomPositions[i - 1].x); x--) {
-					map[x][y] = 1;
-				}
-
-				y = Math.max(roomPositions[i].y, roomPositions[i - 1].y);
-				for (; y > Math.max(roomPositions[i].y, roomPositions[i - 1].y) - Math.min(roomPositions[i].y, roomPositions[i - 1].y); y++) {
-					map[roomPositions[i - 1].x][y] = 1;
-				}*/
-	
+				for (; pos.y - offset.y > Math.min(roomPositions[i].y, roomPositions[i - 1].y); pos.y--) {
+					map[pos.x][pos.y] = 1;
+				}	
 			}
 						
-			IO.println("Making room with size " + roomSizes[i].toString() + " and position " + roomPositions[i].toString());
+
 
 			for (int x = 0; x < roomSizes[i].x; x++) {
 				for (int y = 0; y < roomSizes[i].y; y++) {
@@ -130,16 +127,6 @@ public class World {
 			}
 			//lastRoomPosition.set(roomPosition);
 		}
-		/*
-		for (int i = 0; i < map.length; i++) {
-			for (int o = 0; o < map[i].length; o++) {
-				if (i % 2 == 0 && o % 2 == 0) {
-					map[i][o] = 0;
-				} else {
-					map[i][o] = 1;
-				}
-			}
-		} */
 	}
 
 	public static void generateMap(int seed) {
@@ -150,6 +137,16 @@ public class World {
 	public static void generateMap() {
 		Random r = new Random();
 		generateMap(r);
+	}
+
+	// Find suitable spawn locations
+	public static Vector2 findSpawn(Vector2[] roomSizes, Vector2[] roomPositions, Random r) {
+		if (roomSizes.length != roomPositions.length) {
+			throw new IllegalArgumentException();
+		}
+		int i = r.nextInt(roomSizes.length);
+		Vector2 offset = new Vector2();
+		return new Vector2();
 	}
 
 	public static void spawnEnemies() {

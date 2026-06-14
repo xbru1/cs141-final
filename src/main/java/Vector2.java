@@ -24,6 +24,16 @@ public class Vector2 {
 		this.y = y;
 	}
 
+	public void add(Vector2 vector) {
+		this.x += vector.x;
+		this.y += vector.y;
+	}
+
+	public void subtract(Vector2 vector) {
+		this.x -= vector.x;
+		this.y -= vector.y;
+	}
+
 	public void set(Vector2 vector) {
 		this.x = vector.x;
 		this.y = vector.y;
