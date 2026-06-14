@@ -36,7 +36,7 @@ public class Crawler extends Application {
 				this.experience = 100000;
 				IO.println(this.position.toString());
 				if (World.turn % 2 == 0) {
-					this.move(new Vector2(0, -1));
+					//this.move(new Vector2(0, -1));
 				}
 				super.update();
 			}
