@@ -84,14 +84,11 @@ public class World {
 			// Make corridors				
 			if (i != 0) {
 
-				IO.println("Making room with size " + roomSizes[i].toString() + " and position " + roomPositions[i].toString());
+				// IO.println("Making room with size " + roomSizes[i].toString() + " and position " + roomPositions[i].toString());
+
 				Vector2 pos = new Vector2(Math.min(roomPositions[i].x, roomPositions[i - 1].x), Math.min(roomPositions[i].y, roomPositions[i - 1].y));
 				Vector2 offset = new Vector2(r.nextInt(Math.min(roomSizes[i].x, roomSizes[i - 1].x)), r.nextInt(Math.min(roomSizes[i].y, roomSizes[i - 1].y)));
 				pos.add(offset);
-
-				//pos.add(offset);
-				//int x = Math.min(roomPositions[i].x, roomPositions[i - 1].x);
-				//int y = Math.min(roomPositions[i].y, roomPositions[i - 1].y);
 
 				// Connect the positions of the rooms together
 				// These four for loops go right/left and up/down as necessary to ensure there is a corridor between this room and the next

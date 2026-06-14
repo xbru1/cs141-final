@@ -10,4 +10,8 @@ public class Enemy extends LivingEntity implements Updateable {
 	public void update() {
 		super.update();
 	}
+
+	public void AI() {
+
+	}
 }

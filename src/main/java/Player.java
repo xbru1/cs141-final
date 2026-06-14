@@ -13,7 +13,7 @@ public class Player extends LivingEntity {
 	//public ArrayList<Item> inventory = new ArrayList<>();
 
 	public Player() throws FileNotFoundException {
-		super(0, 100, 5, 20, 1);
+		super(0, 100, 5, 20);
 		setSprite("./assets/player.png", Crawler.root);
 	}
 

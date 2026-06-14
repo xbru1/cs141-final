@@ -7,47 +7,37 @@ public abstract class LivingEntity extends Entity {
 
 	// TODO: Convert stats to getters/setters so that we can hook into them to call calculateStats()
 	public int experience;
-	protected int maxHpBase = 100;
+	protected int maxHpBase;
 	public int maxHp;
 	public int hp;
-	protected int defenseBase = 25;
+	protected int defenseBase;
 	public int defense;
-	protected int attackBase = 25;
+	protected int attackBase;
 	public int attack;
-	public int attackRange;
+	public int attackRange = 0;
 
 	public int lastDamage = 0; // Turns since last damage
 	public int healDelay = 3; // Turns that must pass before regeneration begins
 
-	public LivingEntity(int experience) {
+	// Constructor from experience
+	public LivingEntity(int experience, int maxHpBase, int defenseBase, int attackBase, Vector2 position) {
 		this.experience = experience;
+		this.maxHpBase = maxHpBase;
+		this.defenseBase = defenseBase;
+		this.attackBase = attackBase;
+
 		calculateStats();
 		this.hp = this.maxHp;
-		this.position = new Vector2();
+		this.position = position;
 	}
 
-	public LivingEntity(int experience, int maxHp, int defense, int attack, int attackRange) {
-		this.experience = experience;
-		this.maxHp = maxHp;
-		this.hp = maxHp;
-		this.defense = defense;
-		this.attack = attack;
-		this.attackRange = attackRange;
-		this.position = new Vector2();
+	public LivingEntity(int experience, int maxHpBase, int defenseBase, int attackBase) {
+		this(experience, maxHpBase, defenseBase, attackBase, new Vector2());
 	}
 
-	public LivingEntity(int experience, int maxHp, int defense, int attack) {
-		this(experience, maxHp, defense, attack, 1);
+	public LivingEntity(int experience) {
+		this(experience, 100, 25, 50);;
 	}
-
-	public LivingEntity(int experience, int maxHp, int defense) {
-		this(experience, maxHp, defense, 10);
-	}
-
-	public LivingEntity(int experience, int maxHp) {
-		this(experience, maxHp, 5);
-	}
-
 	public LivingEntity() {
 		this(0);
 	}
@@ -88,7 +78,7 @@ public abstract class LivingEntity extends Entity {
 
 	// Calculate whether another LivingEntity is within this LivingEntity's attack range using the distance formula
 	public boolean canAttack(LivingEntity e) {
-		return (Math.abs(Math.sqrt(Math.pow(position.x - e.position.x, 2) + Math.pow(position.y - e.position.y, 2))) <= attackRange);
+		return Math.abs(Vector2.distance(this.position, e.position)) <= this.attackRange;
 	}
 
 	// Attack another entity to reduce their HP
