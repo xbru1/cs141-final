@@ -1,5 +1,6 @@
 import javafx.scene.image.*;
 import javafx.scene.*;
+import javafx.scene.effect.*;
 import java.io.*;
 import java.awt.*;
 
@@ -15,6 +16,8 @@ public abstract class LivingEntity extends Entity {
 	protected int attackBase;
 	public int attack;
 	public int attackRange = 0;
+
+	protected ColorAdjust ca = new ColorAdjust();
 
 	public int lastDamage = 0; // Turns since last damage
 	public int healDelay = 3; // Turns that must pass before regeneration begins
@@ -64,6 +67,17 @@ public abstract class LivingEntity extends Entity {
 		}
 		super.update();
 	}
+
+	public void render() {
+		ca.setSaturation(-1.0 + ((double) this.hp / this.maxHp));
+		super.render();
+	}
+
+	public void setSprite(String path, Group g) throws FileNotFoundException {
+		super.setSprite(path, g);
+		this.sprite.setEffect(ca);
+	}
+
 
 	// For now, attacking will involve simply attempting to move onto a tile with a LivingEntity on it
 	public boolean move(Vector2 vector) {

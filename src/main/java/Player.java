@@ -13,7 +13,7 @@ public class Player extends LivingEntity implements Serializable {
 	//public ArrayList<Item> inventory = new ArrayList<>();
 
 	public Player() throws FileNotFoundException {
-		super(0, 50, 20, 30);
+		super(0, 50, 20, 10);
 		setSprite("./assets/player.png", Crawler.root);
 	}
 
@@ -49,7 +49,7 @@ public class Player extends LivingEntity implements Serializable {
 			IO.println("Player HP: " + this.hp);
 		}
 		sprite.toFront();
-	}
+	}	
 
 	public void remove() {
 		IO.println("Game over");
