@@ -13,9 +13,7 @@ import javafx.stage.*;
 
 public class Crawler extends Application {
 
-
-	// The InputHandler needs to be initialized first
-	public InputHandler IH = new InputHandler();
+	public InputHandler IH;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -28,8 +26,9 @@ public class Crawler extends Application {
 
 	// Start 
 	public void start(Stage stage) throws FileNotFoundException {
-		// IO.println(System.getProperty("user.dir"));
-		//IO.println(Screen.getPrimary().getVisualBounds().getHeight());
+
+		// The InputHandler needs to be initialized first
+		IH = new InputHandler();
 
 		// Testing enemy, remove once this is finished!
 		/*World.entities.add(new Enemy()); {
@@ -44,10 +43,6 @@ public class Crawler extends Application {
 		});
 
 		World.entities.get(0).position.x = 5;*/
-
-		World.entities.add(new Item());
-
-		World.entities.get(0).position.x = 5;
 		
 
 
@@ -57,8 +52,8 @@ public class Crawler extends Application {
 		UI.setFill(Color.WHITE);
 
 		// Preparations
-		World.generateMap();
 		World.initialize();
+		World.generateMap();
 
 		stage.setTitle("Dungeon Crawler");
 
@@ -72,7 +67,12 @@ public class Crawler extends Application {
 
 		// Pass any inputs to the InputHandler
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
-			IH.handleKey(event);
+			try {
+				IH.handleKey(event);
+			} 
+			catch (Exception e) {
+				IO.println(e);	
+			}
 		});
 	}
 
@@ -84,7 +84,7 @@ public class Crawler extends Application {
 	}
 
 	// Render the TileMap from World
-	public void renderMap() throws FileNotFoundException {
+	public static void renderMap() throws FileNotFoundException {
 		for (int x = 0; x < Globals.mapSizeX; x++) {
 			for (int y = 0; y < Globals.mapSizeY; y++) {
 				renderTile(World.tileIndex[World.map[x][y]].texturePath, x, y);
@@ -97,7 +97,7 @@ public class Crawler extends Application {
 	}
 
 	// Render a single tile
-	private void renderTile(String path, int i, int o) throws FileNotFoundException {
+	private static void renderTile(String path, int i, int o) throws FileNotFoundException {
 		ImageView r = Utils.imageView(path, Globals.tileSize * i + Globals.resolutionX / 2 - Globals.tileSize / 2, Globals.tileSize * o + Globals.resolutionY / 2 - Globals.tileSize / 2, Globals.tileSize, Globals.tileSize);
 		r.toBack();
 	}

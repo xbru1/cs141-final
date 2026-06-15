@@ -26,7 +26,7 @@ public class World {
 	public static void initialize() throws FileNotFoundException {
 		player = new Player();
 		entities.add(player);
-		IO.println("initializing world");
+		IO.println("Initializing world...");
 		update();
 	}
 
@@ -51,7 +51,6 @@ public class World {
 		entities.removeIf(Objects::isNull);
 
 		turn++;
-		//player.update();
 		Crawler.tiles.setTranslateX(-player.position.x * Globals.tileSize);
 		Crawler.tiles.setTranslateY(-player.position.y * Globals.tileSize);
 	}
@@ -59,6 +58,15 @@ public class World {
 
 	// Generate the map using a custom algorithm
 	public static void generateMap(Random r) throws FileNotFoundException {
+
+		clearMap();
+		for (int i = 0; i < entities.size(); i++) {
+			entities.set(i, null);
+		}
+		if (player != null) {
+			player.position.set(0, 0);
+			entities.add(player);
+		}
 
 		// Minimum of 8 rooms per map, up to 15 total rooms
 		int rooms = r.nextInt(9) + 8;
@@ -85,6 +93,8 @@ public class World {
 		generateEnemies(roomPositions, roomSizes, r);
 		generateItems(roomPositions, roomSizes, r);
 
+		Crawler.renderMap();
+		update();
 	}
 
 	public static void generateMap(int seed) throws FileNotFoundException {
@@ -95,6 +105,16 @@ public class World {
 	public static void generateMap() throws FileNotFoundException {
 		Random r = new Random();
 		generateMap(r);
+	}
+
+	// Set the map to 0
+	private static void clearMap() {
+		for (int x = 0; x < map.length; x++) {
+			for (int y = 0; y < map[x].length; y++) {
+				map[x][y] = 0;
+			}
+		}
+		Crawler.tiles.getChildren().clear();
 	}
 
 	// Fill tiles in for rooms

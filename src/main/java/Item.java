@@ -16,7 +16,9 @@ public class Item extends Entity {
 		e.defenseBase += r.nextInt(8);
 		e.attackBase += r.nextInt(8);
 		e.calculateStats();
-		e.hp = e.maxHp;
+		if (e.hp < e.maxHp) {
+			e.hp = e.maxHp;
+		}
 		this.shouldRemove = true;
 	}
 }

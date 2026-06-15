@@ -4,11 +4,14 @@ import javafx.scene.*;
 import javafx.scene.input.*;
 import javafx.scene.canvas.*;
 import javafx.scene.layout.*;
+import java.io.*;
 
 public class InputHandler {
 
+	// Interface that provides a single method that can be run
+	// While we could use the Updateable interface, we may end up adding another method to it later, so it is best we use a separate interface here
 	private interface Runnable {
-		void run();
+		void run() throws FileNotFoundException;
 	}
 
 	// Map of keybindings, each KeyCode corresponds to an Updateable with a function
@@ -16,7 +19,7 @@ public class InputHandler {
 
 	// Constructor that initializes with default keybindings
 	// We use anonymous classes and lambda functions here to make handling keybindings simple and concise
-	public InputHandler() {
+	public InputHandler() throws FileNotFoundException {
 		keyMap.put(KeyCode.F12, () -> Globals.toggleDebug());
 		keyMap.put(KeyCode.W, () -> World.player.move(Vector2.UP));
 		keyMap.put(KeyCode.A, () -> World.player.move(Vector2.LEFT));
@@ -27,10 +30,11 @@ public class InputHandler {
 		keyMap.put(KeyCode.DOWN, () -> World.player.move(Vector2.DOWN));
 		keyMap.put(KeyCode.RIGHT, () -> World.player.move(Vector2.RIGHT));
 		keyMap.put(KeyCode.L, () -> World.update());
+		keyMap.put(KeyCode.ENTER, () -> World.generateMap());
 	}
 
 	// Handle a single key press
-	public static void handleKey(KeyEvent input) {
+	public static void handleKey(KeyEvent input) throws FileNotFoundException {
 
 		KeyCode key = input.getCode();
 		Group tiles = Crawler.tiles;
@@ -38,7 +42,8 @@ public class InputHandler {
 		try {
 			keyMap.get(key).run();
 		} catch (Exception e) {
-			if (e.getClass() == NullPointerException.class) {
+			// Ignore any NullPointerExceptions, as they result from pressing a key that is not in the keyMap
+			if (e.getClass() != NullPointerException.class) {
 				IO.println(e); 
 			}
 		}

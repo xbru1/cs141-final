@@ -57,7 +57,6 @@ public abstract class Entity implements Updateable, Renderable {
 	// Code to run before the Entity is removed
 	public void remove() {
 		this.shouldRemove = true;
-		IO.println("removing");
 		if (sprite != null) {
 			sprite.setVisible(false);
 		}
