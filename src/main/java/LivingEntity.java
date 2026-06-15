@@ -36,7 +36,7 @@ public abstract class LivingEntity extends Entity {
 	}
 
 	public LivingEntity(int experience) {
-		this(experience, 100, 25, 50);;
+		this(experience, 20, 5, 20);;
 	}
 	public LivingEntity() {
 		this(0);
@@ -72,7 +72,7 @@ public abstract class LivingEntity extends Entity {
 			// We can't move and attack on the same turn, so we return before calling the super
 			return true;
 		}
-		
+		IO.println("POSITION: " + vector.toString());
 		return super.move(vector);
 	}
 

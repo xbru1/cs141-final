@@ -17,4 +17,11 @@ public class Enemy extends LivingEntity implements Updateable {
 	public void AI() {
 		this.move(this.position.nearestDirectionTo(World.player.position));
 	}
+
+	public void attack(LivingEntity entity) {
+		// Prevent friendly fire
+		if (entity instanceof Player) {
+			super.attack(entity);
+		}
+	}
 }

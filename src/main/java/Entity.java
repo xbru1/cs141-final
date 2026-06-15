@@ -12,7 +12,7 @@ public abstract class Entity implements Updateable, Renderable {
 
 	// TODO: Make sprite protected and add an imagePath String to hide the implementation of this
 	public ImageView sprite;
-	public Group group;
+	//public Group group;
 	
 	// Whether this entity should be removed on the next update (whether this Entity is considered dead?)
 	public boolean shouldRemove = false;
@@ -57,14 +57,15 @@ public abstract class Entity implements Updateable, Renderable {
 	// Code to run before the Entity is removed
 	public void remove() {
 		this.shouldRemove = true;
+		IO.println("removing");
 		if (sprite != null) {
 			sprite.setVisible(false);
 		}
 
-		if (group != null) {
+		/*if (group != null) {
 			group.setVisible(false);
 			Crawler.root.getChildren().remove(group);
-		}
+		}*/
 	}
 
 	public void setSprite(String path, Group g) throws FileNotFoundException {

@@ -31,7 +31,7 @@ public class Crawler extends Application {
 		//IO.println(Screen.getPrimary().getVisualBounds().getHeight());
 
 		// Testing enemy, remove once this is finished!
-		World.entities.add(new Enemy() {
+		World.entities.add(new Enemy());/* {
 			public void update() {
 				this.experience = 100000;
 				IO.println(this.position.toString());
@@ -40,9 +40,10 @@ public class Crawler extends Application {
 				}
 				super.update();
 			}
-		});
+		});*/
 
 		World.entities.get(0).position.x = 5;
+		
 
 		Text hello = Utils.text("Hello World!", 50, 50);
 		hello.setFont(Font.font("Helvetica", FontWeight.BOLD, 36));

@@ -45,16 +45,18 @@ public class Vector2 {
 
 	// Return a direction vector corresponding the direction that will reduce the distance from this to a point if moved towards
 	public Vector2 nearestDirectionTo(Vector2 point) {
-
 		int lowestIndex = 0;
-		double lowest = 0;
-		for (int i = 0; i < DIRECTIONS.length; i++) {
-			double distance = Math.abs(Vector2.distance(new Vector2(this.x - DIRECTIONS[i].x, this.y - DIRECTIONS[i].y), point));
-			if (distance < lowest || lowest == 0) {
-				lowestIndex = i;
-				lowest = distance;
-			}
+		// This can be any negative number
+		double lowest = 99999;
 
+		for (int i = 0; i < DIRECTIONS.length; i++) {
+
+			double distance = distance(difference(this, DIRECTIONS[i]), point);
+
+			if (distance < lowest) {
+				lowest = distance;
+				lowestIndex = i;
+			}
 		}
 		return DIRECTIONS[lowestIndex];	
 	}
@@ -71,14 +73,16 @@ public class Vector2 {
 
 	// Distance formula
 	public static double distance (Vector2 a, Vector2 b) {
-		return Math.sqrt(Math.abs(Math.pow(b.x - a.x, 2) - Math.pow(b.y - a.y, 2)));
+		IO.println(Math.sqrt(Math.abs(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2))));
+		return Math.sqrt(Math.abs(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2)));
 	}
 
-	// Direction constants
+	// Cardinal direction constants
 	public static final Vector2 UP = new Vector2(0, 1);
 	public static final Vector2 LEFT = new Vector2(1, 0);
 	public static final Vector2 DOWN = new Vector2(0, -1);
 	public static final Vector2 RIGHT = new Vector2(-1, 0);
+
 	public static final Vector2[] DIRECTIONS = {
 		Vector2.UP,
 		Vector2.LEFT,

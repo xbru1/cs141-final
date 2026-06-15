@@ -33,6 +33,7 @@ public class World {
 	// Updates performed on each turn
 	public static void update() {
 
+		IO.println("updating");
 		// Handle entities
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i) != null) {
@@ -56,7 +57,7 @@ public class World {
 
 
 	// Generate the map using a custom algorithm
-	public static void generateMap(Random r) {
+	public static void generateMap(Random r) throws FileNotFoundException {
 
 		// Minimum of 8 rooms per map, up to 15 total rooms
 		int rooms = r.nextInt(9) + 8;
@@ -80,15 +81,16 @@ public class World {
 
 		generateRooms(roomPositions, roomSizes);
 		generateCorridors(roomPositions, roomSizes, r);
+		spawnEnemies(roomPositions, roomSizes, r);
 
 	}
 
-	public static void generateMap(int seed) {
+	public static void generateMap(int seed) throws FileNotFoundException {
 		Random r = new Random(seed);
 		generateMap(r);
 	}
 
-	public static void generateMap() {
+	public static void generateMap() throws FileNotFoundException {
 		Random r = new Random();
 		generateMap(r);
 	}
@@ -153,23 +155,41 @@ public class World {
 		}
 	}
 
-	// Find suitable spawn locations
-	private static Vector2 findSpawn(Vector2[] roomSizes, Vector2[] roomPositions, Random r) {
-		if (roomSizes.length != roomPositions.length) {
+
+
+	private static void spawnEnemies(Vector2[] roomPositions, Vector2[] roomSizes, Random r) throws FileNotFoundException {
+		// It's technically possible for this 
+		if (roomPositions.length != roomSizes.length) {
 			throw new IllegalArgumentException();
 		}
-		int i = r.nextInt(roomSizes.length);
-		Vector2 offset = new Vector2();
-		return new Vector2();
+
+		int enemies = r.nextInt(10) + 5;
+
+		for (int i = 0; i < enemies; i++) {
+			int room = r.nextInt(roomPositions.length);
+			Enemy e = new Enemy();
+			e.position.set(r.nextInt(roomSizes[room].x) + roomPositions[room].x, r.nextInt(roomSizes[room].y) + roomPositions[room].y);
+			entities.add(e);
+			e.render();
+		}
+		
 	}
 
-	private static void spawnEnemies() {
-		
+	// Find suitable spawn locations
+	private static Vector2 findSpawnLocation(Vector2[] roomPositions, Vector2[] roomSizes, Random r) {
+		if (roomPositions.length != roomSizes.length) {
+			throw new IllegalArgumentException();
+		}
+
+		int room = r.nextInt(roomSizes.length);
+		Vector2 offset = new Vector2(r.nextInt(roomSizes[room].x), r.nextInt(roomSizes[room].y));
+		return Vector2.sum(roomPositions[room], offset);
 	}
 
 	// Check whether or not a given tile can be walked on to
 	// A tile can be walked onto if it is walkable, not outside the bounds of the map, and does not contain an entity
 	public static boolean isWalkable(Vector2 position) {
+
 		return !(entityAt(position) || position.x < 0 || position.x > Globals.mapSize.x - 1 || position.y < 0 || position.y > Globals.mapSize.y - 1 || !tileIndex[map[position.x][position.y]].walkable);
 	}
 	
@@ -183,7 +203,7 @@ public class World {
 	// Returns the entity at a given position
 	public static Entity getEntityAt(Vector2 position) {
 		for (int i = 0; i < entities.size(); i++) {
-			if (entities.get(i).position.x == position.x && entities.get(i).position.y == position.y) {
+			if (entities.get(i) != null && entities.get(i).position.x == position.x && entities.get(i).position.y == position.y) {
 				return entities.get(i);
 			}
 		}

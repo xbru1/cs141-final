@@ -19,7 +19,7 @@ public class Globals {
 	public static final int resolutionY = (int) Screen.getPrimary().getVisualBounds().getHeight();
 
 	// How many vertical tiles should be on the screen
-	private static final int viewportTileHeight = 64;
+	private static final int viewportTileHeight = 15;
 	public static final int tileSize = resolutionY / viewportTileHeight;
 
 	// Size of the map in tiles

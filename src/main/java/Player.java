@@ -13,7 +13,7 @@ public class Player extends LivingEntity {
 	//public ArrayList<Item> inventory = new ArrayList<>();
 
 	public Player() throws FileNotFoundException {
-		super(0, 100, 5, 20);
+		super(0, 50, 5, 20);
 		setSprite("./assets/player.png", Crawler.root);
 	}
 
@@ -27,6 +27,7 @@ public class Player extends LivingEntity {
 			}
 			return true;
 		} else {
+			IO.println("something wrong");
 			return false;
 		}
 	}
@@ -37,6 +38,10 @@ public class Player extends LivingEntity {
 			Crawler.tiles.getChildren().remove(sprite);
 			shouldRemove = true;
 			IO.println("Game over");
+		}
+
+		if (Globals.debug) {
+			IO.println("Player HP: " + this.hp);
 		}
 		sprite.toFront();
 	}

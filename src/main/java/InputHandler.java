@@ -38,7 +38,7 @@ public class InputHandler {
 		try {
 			keyMap.get(key).run();
 		} catch (Exception e) {
-			if (e.getClass() != NullPointerException.class) {
+			if (e.getClass() == NullPointerException.class) {
 				IO.println(e); 
 			}
 		}
