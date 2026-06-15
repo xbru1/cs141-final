@@ -39,17 +39,12 @@ public class Player extends LivingEntity implements Serializable {
 	}
 
 	public void update() {
-		if (this.hp <= 0) {
-			sprite.setVisible(false);
-			Crawler.tiles.getChildren().remove(sprite);
-			shouldRemove = true;
-		}
-
-		if (Globals.debug) {
-			IO.println("Player HP: " + this.hp);
-		}
+		super.update();
 		sprite.toFront();
-	}	
+	}
+
+	// Yes, this is empty. The player sprite is always at the center of the screen, so we don't need to update its position.
+	public void render() {}
 
 	public void remove() {
 		IO.println("Game over");

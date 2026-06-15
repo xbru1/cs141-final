@@ -47,9 +47,9 @@ public abstract class LivingEntity extends Entity {
 
 	// Recalculate stats based on base stats and the current experience
 	public void calculateStats() {
-		this.maxHp = (int) (getLevel() * maxHpBase * 50 / 100) + 3;
-		this.defense = (int) (getLevel() * defenseBase * 50 / 100) + 3;
-		this.attack = (int) (getLevel() * attackBase * 50 / 100) + 3;
+		this.maxHp = (int) ((getLevel() + 5) * maxHpBase * 5 / 100) + 3;
+		this.defense = (int) ((getLevel() + 5) * defenseBase * 5 / 100) + 3;
+		this.attack = (int) ((getLevel() + 5) * attackBase * 5 / 100) + 3;
 	}
 
 	public int getLevel() {
@@ -65,11 +65,11 @@ public abstract class LivingEntity extends Entity {
 			Crawler.tiles.getChildren().remove(sprite);
 			shouldRemove = true;
 		}
+		ca.setSaturation(-1.0 + ((double) this.hp / this.maxHp));
 		super.update();
 	}
 
 	public void render() {
-		ca.setSaturation(-1.0 + ((double) this.hp / this.maxHp));
 		super.render();
 	}
 
@@ -99,8 +99,6 @@ public abstract class LivingEntity extends Entity {
 
 	// Attack another entity to reduce their HP
 	public void attack(LivingEntity e) {
-		/*e.hp -= (int) (this.attack / e.defense) + 3;
-		e.lastDamage = 0;*/
 		e.damage(this.attack);
 		if (Globals.debug) {
 			IO.println("Attacked HP: " + e.hp);

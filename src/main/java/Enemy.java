@@ -27,7 +27,8 @@ public class Enemy extends LivingEntity implements Updateable {
 
 	// Heal the player a little when this is destroyed
 	public void remove() {
-		World.player.hp += (int) (0.25 * World.player.maxHp) ;
+		World.player.hp += (int) (0.25 * World.player.maxHp);
+		World.player.experience += this.getLevel() * 2;
 		super.remove();
 	}
 }

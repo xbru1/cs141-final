@@ -33,6 +33,8 @@ public class World {
 	// Updates performed on each turn
 	public static void update() {
 
+		Crawler.renderUI();
+
 		// Handle entities
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i) != null) {

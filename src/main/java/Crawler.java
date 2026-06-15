@@ -24,6 +24,7 @@ public class Crawler extends Application {
 	// Tiles and other elements are kept in separate groups
 	public static Group root = new Group();
 	public static Group tiles = new Group();
+	public static Text UI; 
 
 	// Start 
 	public void start(Stage stage) throws FileNotFoundException {
@@ -49,13 +50,16 @@ public class Crawler extends Application {
 		World.entities.get(0).position.x = 5;
 		
 
-		Text hello = Utils.text("Hello World!", 50, 50);
-		hello.setFont(Font.font("Helvetica", FontWeight.BOLD, 36));
-		hello.setFill(Color.WHITE);
+
+		UI = Utils.text("if this string is empty it won't render for some reason", 50, 50);
+		//Text hello = Utils.text("Hello World!", 50, 50);
+		UI.setFont(Font.font("Helvetica", FontWeight.BOLD, 36));
+		UI.setFill(Color.WHITE);
 
 		// Preparations
-		World.initialize();
 		World.generateMap();
+		World.initialize();
+
 		stage.setTitle("Dungeon Crawler");
 
 		Scene scene = new Scene(root, Globals.resolutionX, Globals.resolutionY, Color.BLACK);
@@ -73,8 +77,10 @@ public class Crawler extends Application {
 	}
 
 	// Render the UI
-	public void renderUI() {
-		
+	public static void renderUI() {
+		UI.setText(String.format("HP: %d/%d\nAttack: %d\nDefense: %d\nLevel: %d", World.player.hp, World.player.maxHp, World.player.attack, World.player.defense, World.player.getLevel()));
+		//UI.setFont(Font.font("Helvetica", FontWeight.BOLD, 36));
+
 	}
 
 	// Render the TileMap from World
@@ -92,10 +98,8 @@ public class Crawler extends Application {
 
 	// Render a single tile
 	private void renderTile(String path, int i, int o) throws FileNotFoundException {
-		
 		ImageView r = Utils.imageView(path, Globals.tileSize * i + Globals.resolutionX / 2 - Globals.tileSize / 2, Globals.tileSize * o + Globals.resolutionY / 2 - Globals.tileSize / 2, Globals.tileSize, Globals.tileSize);
 		r.toBack();
-
 	}
 }
 
