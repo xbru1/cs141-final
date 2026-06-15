@@ -43,6 +43,32 @@ public class Vector2 {
 		return String.format("(%d,%d)", x, y);
 	}
 
+	// Return a direction vector corresponding the direction that will reduce the distance from this to a point if moved towards
+	public Vector2 nearestDirectionTo(Vector2 point) {
+
+		int lowestIndex = 0;
+		double lowest = 0;
+		for (int i = 0; i < DIRECTIONS.length; i++) {
+			double distance = Math.abs(Vector2.distance(new Vector2(this.x - DIRECTIONS[i].x, this.y - DIRECTIONS[i].y), point));
+			if (distance < lowest || lowest == 0) {
+				lowestIndex = i;
+				lowest = distance;
+			}
+
+		}
+		return DIRECTIONS[lowestIndex];	
+	}
+
+	// Return a new Vector2 that is the sum of two vectors
+	public static Vector2 sum(Vector2 a, Vector2 b) {
+		return new Vector2(a.x + b.x, a.y + b.y);
+	}
+
+	// Return a new Vector2 that is the difference of two vectors
+	public static Vector2 difference(Vector2 a, Vector2 b) {
+		return new Vector2(a.x - b.x, a.y - b.y);
+	}
+
 	// Distance formula
 	public static double distance (Vector2 a, Vector2 b) {
 		return Math.sqrt(Math.abs(Math.pow(b.x - a.x, 2) - Math.pow(b.y - a.y, 2)));
@@ -53,4 +79,10 @@ public class Vector2 {
 	public static final Vector2 LEFT = new Vector2(1, 0);
 	public static final Vector2 DOWN = new Vector2(0, -1);
 	public static final Vector2 RIGHT = new Vector2(-1, 0);
+	public static final Vector2[] DIRECTIONS = {
+		Vector2.UP,
+		Vector2.LEFT,
+		Vector2.DOWN,
+		Vector2.RIGHT
+	};
 }

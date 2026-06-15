@@ -12,27 +12,9 @@ public class Enemy extends LivingEntity implements Updateable {
 		super.update();
 	}
 
+	// AI to run on every turn, this will simply attempt to move to the player's position
+	// The default AI is meant to be dumb and exploitable
 	public void AI() {
-		// This is gonna get cursed
-		Vector2[] directions = {
-			Vector2.UP,
-			Vector2.LEFT,
-			Vector2.DOWN,
-			Vector2.RIGHT,
-		};
-
-		int lowestIndex = 0;
-		double lowest = 0;
-		for (int i = 0; i < directions.length; i++) {
-			double distance = Math.abs((double) Vector2.distance(new Vector2(this.position.x - directions[i].x, this.position.y - directions[i].y), World.player.position));
-			//IO.println(distance);
-			if (distance < lowest || lowest == 0) {
-				lowestIndex = i;
-				lowest = distance;
-			}
-
-		}
-
-		this.move(directions[lowestIndex]);
+		this.move(this.position.nearestDirectionTo(World.player.position));
 	}
 }

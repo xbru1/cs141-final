@@ -57,8 +57,7 @@ public class World {
 
 	// Generate the map using a custom algorithm
 	public static void generateMap(Random r) {
-		// TODO: Split this into different modules
-		//Random r = new Random(seed);
+
 		// Minimum of 8 rooms per map, up to 15 total rooms
 		int rooms = r.nextInt(9) + 8;
 		//int rooms = 2;
@@ -79,20 +78,57 @@ public class World {
 		roomPositions[1] = new Vector2(57, 25);
 		roomSizes[1] = new Vector2(7, 7);
 
-		// Generate rooms
-		for (int i = 0; i < rooms; i++) {
+		generateRooms(roomPositions, roomSizes);
+		generateCorridors(roomPositions, roomSizes, r);
+
+	}
+
+	public static void generateMap(int seed) {
+		Random r = new Random(seed);
+		generateMap(r);
+	}
+
+	public static void generateMap() {
+		Random r = new Random();
+		generateMap(r);
+	}
+
+	// Fill tiles in for rooms
+	private static void generateRooms(Vector2[] roomPositions, Vector2[] roomSizes) {
+		if (roomPositions.length != roomSizes.length) {
+			throw new IllegalArgumentException();
+		}
+		// Fill in the rooms
+		for (int i = 0; i < roomPositions.length; i++) {
+			for (int x = 0; x < roomSizes[i].x; x++) {
+				for (int y = 0; y < roomSizes[i].y; y++) {
+					map[x + roomPositions[i].x][y + roomPositions[i].y] = 1;
+				}
+			}
+		}
+
+	}
+
+	// Fill tiles in for corridors to connect the rooms
+	private static void generateCorridors(Vector2[] roomPositions, Vector2[] roomSizes, Random r) {
+		if (roomPositions.length != roomSizes.length) {
+			throw new IllegalArgumentException();
+		}	
+
+		for (int i = 0; i < roomPositions.length; i++) {
 			// Make corridors				
 			if (i != 0) {
 
-				// IO.println("Making room with size " + roomSizes[i].toString() + " and position " + roomPositions[i].toString());
-
+				// Get where the corridor should start
 				Vector2 pos = new Vector2(Math.min(roomPositions[i].x, roomPositions[i - 1].x), Math.min(roomPositions[i].y, roomPositions[i - 1].y));
+
+				// Generate a random offset to add more variety to where corridors begin/end
 				Vector2 offset = new Vector2(r.nextInt(Math.min(roomSizes[i].x, roomSizes[i - 1].x)), r.nextInt(Math.min(roomSizes[i].y, roomSizes[i - 1].y)));
 				pos.add(offset);
 
 				// Connect the positions of the rooms together
-				// These four for loops go right/left and up/down as necessary to ensure there is a corridor between this room and the next
-				// We don't bother with any other corridors since they naturally overlap with each other to allow multiple routes between rooms
+				// These four for loops go right/left and up/down as necessary to ensure there is a corridor of tiles between this room and the next
+				// Corridors will naturally overlap with each other and other rooms to create an interesting map
 
 				// Right
 				for(; pos.x - offset.x < Math.max(roomPositions[i].x, roomPositions[i - 1].x); pos.x++) {
@@ -112,32 +148,13 @@ public class World {
 				// Up
 				for (; pos.y - offset.y > Math.min(roomPositions[i].y, roomPositions[i - 1].y); pos.y--) {
 					map[pos.x][pos.y] = 1;
-				}	
-			}
-						
-
-
-			for (int x = 0; x < roomSizes[i].x; x++) {
-				for (int y = 0; y < roomSizes[i].y; y++) {
-					map[x + roomPositions[i].x][y + roomPositions[i].y] = 1;
 				}
 			}
-			//lastRoomPosition.set(roomPosition);
 		}
 	}
 
-	public static void generateMap(int seed) {
-		Random r = new Random(seed);
-		generateMap(r);
-	}
-
-	public static void generateMap() {
-		Random r = new Random();
-		generateMap(r);
-	}
-
 	// Find suitable spawn locations
-	public static Vector2 findSpawn(Vector2[] roomSizes, Vector2[] roomPositions, Random r) {
+	private static Vector2 findSpawn(Vector2[] roomSizes, Vector2[] roomPositions, Random r) {
 		if (roomSizes.length != roomPositions.length) {
 			throw new IllegalArgumentException();
 		}
@@ -146,7 +163,7 @@ public class World {
 		return new Vector2();
 	}
 
-	public static void spawnEnemies() {
+	private static void spawnEnemies() {
 		
 	}
 
