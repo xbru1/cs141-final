@@ -19,6 +19,8 @@ public class Vector2 {
 		this(0, 0);
 	}
 
+
+
 	public void set(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -61,6 +63,11 @@ public class Vector2 {
 		return DIRECTIONS[lowestIndex];	
 	}
 
+	// Check for equality
+	public static boolean equals(Vector2 v1, Vector2 v2) {
+		return (v1.x == v2.x) && (v1.y == v2.y);
+	}
+
 	// Return a new Vector2 that is the sum of two vectors
 	public static Vector2 sum(Vector2 a, Vector2 b) {
 		return new Vector2(a.x + b.x, a.y + b.y);
@@ -73,7 +80,6 @@ public class Vector2 {
 
 	// Distance formula
 	public static double distance (Vector2 a, Vector2 b) {
-		IO.println(Math.sqrt(Math.abs(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2))));
 		return Math.sqrt(Math.abs(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2)));
 	}
 

@@ -8,12 +8,12 @@ import javafx.scene.layout.*;
 import java.io.*;
 
 
-public class Player extends LivingEntity {
+public class Player extends LivingEntity implements Serializable {
 
 	//public ArrayList<Item> inventory = new ArrayList<>();
 
 	public Player() throws FileNotFoundException {
-		super(0, 50, 5, 20);
+		super(0, 50, 20, 30);
 		setSprite("./assets/player.png", Crawler.root);
 	}
 
@@ -21,13 +21,19 @@ public class Player extends LivingEntity {
 	public boolean move(Vector2 vector) {
 		// Update the world (pass a turn) if the player successfully moved
 		if (super.move(vector) && !shouldRemove) {
-			World.update();
+
 			if (Globals.debug) {
-				IO.println("X: " + this.position.x + ", Y: " + this.position.y);
+				IO.println("Player Pos: " + this.position.toString());
 			}
+
+			if (World.getItemAt(this.position) != null) {
+				World.getItemAt(this.position).pickup(this);
+			}
+
+			World.update();
+
 			return true;
 		} else {
-			IO.println("something wrong");
 			return false;
 		}
 	}
@@ -37,12 +43,16 @@ public class Player extends LivingEntity {
 			sprite.setVisible(false);
 			Crawler.tiles.getChildren().remove(sprite);
 			shouldRemove = true;
-			IO.println("Game over");
 		}
 
 		if (Globals.debug) {
 			IO.println("Player HP: " + this.hp);
 		}
 		sprite.toFront();
+	}
+
+	public void remove() {
+		IO.println("Game over");
+		super.remove();
 	}
 }

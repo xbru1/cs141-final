@@ -61,11 +61,6 @@ public abstract class Entity implements Updateable, Renderable {
 		if (sprite != null) {
 			sprite.setVisible(false);
 		}
-
-		/*if (group != null) {
-			group.setVisible(false);
-			Crawler.root.getChildren().remove(group);
-		}*/
 	}
 
 	public void setSprite(String path, Group g) throws FileNotFoundException {

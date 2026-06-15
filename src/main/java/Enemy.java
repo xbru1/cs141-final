@@ -24,4 +24,10 @@ public class Enemy extends LivingEntity implements Updateable {
 			super.attack(entity);
 		}
 	}
+
+	// Heal the player a little when this is destroyed
+	public void remove() {
+		World.player.hp += (int) (0.25 * World.player.maxHp) ;
+		super.remove();
+	}
 }

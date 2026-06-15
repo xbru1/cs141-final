@@ -33,7 +33,6 @@ public class World {
 	// Updates performed on each turn
 	public static void update() {
 
-		IO.println("updating");
 		// Handle entities
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i) != null) {
@@ -50,7 +49,7 @@ public class World {
 		entities.removeIf(Objects::isNull);
 
 		turn++;
-		player.update();
+		//player.update();
 		Crawler.tiles.setTranslateX(-player.position.x * Globals.tileSize);
 		Crawler.tiles.setTranslateY(-player.position.y * Globals.tileSize);
 	}
@@ -81,7 +80,8 @@ public class World {
 
 		generateRooms(roomPositions, roomSizes);
 		generateCorridors(roomPositions, roomSizes, r);
-		spawnEnemies(roomPositions, roomSizes, r);
+		generateEnemies(roomPositions, roomSizes, r);
+		generateItems(roomPositions, roomSizes, r);
 
 	}
 
@@ -157,8 +157,8 @@ public class World {
 
 
 
-	private static void spawnEnemies(Vector2[] roomPositions, Vector2[] roomSizes, Random r) throws FileNotFoundException {
-		// It's technically possible for this 
+	private static void generateEnemies(Vector2[] roomPositions, Vector2[] roomSizes, Random r) throws FileNotFoundException {
+
 		if (roomPositions.length != roomSizes.length) {
 			throw new IllegalArgumentException();
 		}
@@ -172,7 +172,23 @@ public class World {
 			entities.add(e);
 			e.render();
 		}
-		
+	}
+
+	private static void generateItems(Vector2[] roomPositions, Vector2[] roomSizes, Random r) throws FileNotFoundException {
+
+		if (roomPositions.length != roomSizes.length) {
+			throw new IllegalArgumentException();
+		}
+
+		int enemies = r.nextInt(10) + 5;
+
+		for (int i = 0; i < enemies; i++) {
+			int room = r.nextInt(roomPositions.length);
+			Item item = new Item();
+			item.position.set(r.nextInt(roomSizes[room].x) + roomPositions[room].x, r.nextInt(roomSizes[room].y) + roomPositions[room].y);
+			entities.add(item);
+			item.render();
+		}
 	}
 
 	// Find suitable spawn locations
@@ -190,7 +206,7 @@ public class World {
 	// A tile can be walked onto if it is walkable, not outside the bounds of the map, and does not contain an entity
 	public static boolean isWalkable(Vector2 position) {
 
-		return !(entityAt(position) || position.x < 0 || position.x > Globals.mapSize.x - 1 || position.y < 0 || position.y > Globals.mapSize.y - 1 || !tileIndex[map[position.x][position.y]].walkable);
+		return !((entityAt(position) && !(getEntityAt(position) instanceof Item)) || position.x < 0 || position.x > Globals.mapSize.x - 1 || position.y < 0 || position.y > Globals.mapSize.y - 1 || !tileIndex[map[position.x][position.y]].walkable);
 	}
 	
 	// Returns whether or not there is an entity at the given x, y coordinate
@@ -203,8 +219,26 @@ public class World {
 	// Returns the entity at a given position
 	public static Entity getEntityAt(Vector2 position) {
 		for (int i = 0; i < entities.size(); i++) {
-			if (entities.get(i) != null && entities.get(i).position.x == position.x && entities.get(i).position.y == position.y) {
+			if (entities.get(i) != null && Vector2.equals(entities.get(i).position, position)) {
 				return entities.get(i);
+			}
+		}
+		return null;
+	}
+
+	public static LivingEntity getLivingEntityAt(Vector2 position) {
+		for (int i = 0; i < entities.size(); i++) {
+			if (entities.get(i) != null && (entities.get(i) instanceof LivingEntity) && Vector2.equals(entities.get(i).position, position)) {
+				return (LivingEntity) entities.get(i);
+			}
+		}
+		return null;
+	}
+
+	public static Item getItemAt(Vector2 position) {
+		for (int i = 0; i < entities.size(); i++) {
+			if (entities.get(i) != null && (entities.get(i) instanceof Item) && Vector2.equals(entities.get(i).position, position)) {
+				return (Item) entities.get(i);
 			}
 		}
 		return null;
