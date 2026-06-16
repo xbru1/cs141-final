@@ -1,5 +1,5 @@
 /*
- * The Portal is an InteractableEntity that triggers a new map to be generated
+ * The Portal is an InteractableEntity that triggers the generation of a new map when interacted with
  */
 
 import java.util.*;

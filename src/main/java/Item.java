@@ -1,6 +1,7 @@
 /*
  * Items give experience and fully heal when picked up by a LivingEntity
  * For now, only Players are able to interact with Items
+ * I was planning on having multiple types of items initially, but that concept needed to be cut due to time constraints
  */
 
 import java.io.*;
@@ -14,10 +15,9 @@ public class Item extends InteractableEntity {
 		initialize();
 	}
 
-	// Items permanently boost stats and fully heal when picked up
-	public void onEnter(LivingEntity entity) {
 
-		Random r = new Random();
+	// Items fully heal and give some experience based on the current floor when picked up
+	public void onEnter(LivingEntity entity) {
 
 		if (entity instanceof Player) {
 			entity.experience += (int) Math.pow(10, (double) ((World.player.floors + 4) / 4));
