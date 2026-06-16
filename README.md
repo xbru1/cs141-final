@@ -6,18 +6,19 @@ This project is a functioning prototype of a procedurally generated, turn-based,
 
 ## Prequisites
 - Java 25
+- Maven (if building from source)
 
 ## Running
 Using [pre-built .jar from Releases](https://github.com/xbru1/cs141-final/releases/tag/1.0.0): `java -jar "crawler.jar"`
 
 ## Building from Source
-To build from source, you will need Maven installed:
 ```
 git clone https://github.com/xbru1/cs141-final/
 cd cs141-final
 mvn package
 ```
-`mvn clean javafx:run` to test directly from source
+The built .jar will be outputted to `./target` <br>
+You can also run `mvn clean javafx:run` to test directly from source
 
 # Program Features
 - Basic graphics using JavaFX
