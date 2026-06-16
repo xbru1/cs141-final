@@ -44,7 +44,9 @@ You can also run `mvn clean javafx:run` to test directly from source.
 - Enter: Start a new game (only after dying)
 
 # Notable External Resources Used
-- [Maven Assembly Plugin](https://maven.apache.org/plugins/maven-assembly-plugin/): to make building to a .jar easier
+- [JavaFX Documentation](https://openjfx.io/javadoc/25/)
+- [Maven Assembly Plugin](https://maven.apache.org/plugins/maven-assembly-plugin/)
+- [Serialization](https://www.baeldung.com/java-serialization) and [Transient Keyword](https://www.baeldung.com/java-transient-keyword)
 
 # Final Note
 Only the commit history starting from 6/13/2026 is present. Before that date, I had already been working on this in an entirely local Git repository. The metadata of that repository got corrupted, causing the commit history before that date to be lost. All code remained intact though, so no other work was lost. 
