@@ -29,7 +29,8 @@ public class Utils {
 
 	// ImageView helper
 	public static ImageView imageView(String path, int x, int y, int width, int height, Group g) throws FileNotFoundException {
-		Image image = new Image(new FileInputStream(path));
+		// Image image = new Image(new FileInputStream(path));
+		Image image = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream(path));
 		ImageView iv = new ImageView();
 		iv.setImage(image);
 		iv.setX(x);

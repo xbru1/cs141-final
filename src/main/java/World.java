@@ -9,8 +9,8 @@ public class World {
 
 	// The map is stored as a 2D array of bytes that each correspond to the index of this array
 	public static Tile[] tileIndex = new Tile[] { 
-		new Tile(false, "./assets/void.png"), 
-		new Tile(true, "./assets/stone.png") 
+		new Tile(false, "void.png"), 
+		new Tile(true, "stone.png") 
 	};
 
 	// 2D array of bytes that each serve as tile IDs

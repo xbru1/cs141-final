@@ -14,7 +14,7 @@ public class Player extends LivingEntity implements Serializable {
 
 	public Player() throws FileNotFoundException {
 		super(0, 50, 20, 10);
-		setSprite("./assets/player.png", Crawler.root);
+		setSprite("player.png", Crawler.root);
 	}
 
 	// Moving the player involves moving the world around the player since the player is always in the center

@@ -14,7 +14,7 @@ public class Tile {
 	}
 
 	public Tile(boolean walkable) {
-		this(walkable, "./assets/void.png");
+		this(walkable, "void.png");
 	}
 
 	public Tile(String texturePath) {

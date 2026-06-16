@@ -5,7 +5,7 @@ public class Item extends InteractableEntity {
 
 	public Item() throws FileNotFoundException {
 		super();
-		this.setSprite("./assets/item.png", Crawler.tiles);
+		this.setSprite("item.png", Crawler.tiles);
 	}
 
 	// Items permanently boost stats and fully heal when picked up
