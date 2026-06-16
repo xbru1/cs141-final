@@ -118,8 +118,8 @@ public abstract class LivingEntity extends Entity {
 	}
 
 	// Attack another entity to reduce their HP
-	public void attack(LivingEntity e) {
-		e.damage(this.attack);
+	public void attack(LivingEntity entity) {
+		entity.damage(this.attack);
 	}
 
 	// Function for receiving damage
