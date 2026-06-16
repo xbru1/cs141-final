@@ -1,6 +1,7 @@
 /*
  * Class for the Player
  * The Player differs from other LivingEntities primarily in that it is able to cause World updates when moving
+ * Methods for letting the player move are called by the InputHandler elsewhere
  */
 
 import javafx.scene.*;
@@ -65,6 +66,8 @@ public class Player extends LivingEntity {
 		} catch (Exception e) {
 			IO.println(e);
 		}
+
+		Globals.status = Globals.GameStatus.DEAD;
 		super.remove();
 	}
 	

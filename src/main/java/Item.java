@@ -8,6 +8,7 @@ import java.util.*;
 
 public class Item extends InteractableEntity {
 
+	// Constructor
 	public Item() throws FileNotFoundException {
 		super();
 		initialize();
@@ -17,11 +18,9 @@ public class Item extends InteractableEntity {
 	public void onEnter(LivingEntity entity) {
 
 		Random r = new Random();
-		/*entity.maxHpBase += r.nextInt(10);
-		entity.defenseBase += r.nextInt(8);
-		entity.attackBase += r.nextInt(8);*/
+
 		if (entity instanceof Player) {
-			entity.experience += 250 * World.player.floors;
+			entity.experience += (int) Math.pow(10, (double) ((World.player.floors + 4) / 4));
 		}
 		entity.calculateStats();
 		if (entity.hp < entity.maxHp) {
@@ -30,6 +29,7 @@ public class Item extends InteractableEntity {
 		this.remove();
 	}
 
+	// Set the current sprite
 	public void initialize() throws FileNotFoundException {
 		this.setSprite("item.png", Crawler.tiles);
 	}

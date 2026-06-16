@@ -42,8 +42,6 @@ public class Crawler extends Application {
 		UI.setFill(Color.WHITE);
 
 		// Preparations
-		/*World.initialize();
-		World.generateMap();*/
 		startGame();
 		stage.setTitle("Dungeon Crawler");
 
@@ -71,10 +69,15 @@ public class Crawler extends Application {
 		if (!World.player.shouldRemove) {
 			UI.setText(String.format("HP: %d/%d\nAttack: %d\nDefense: %d\nLevel: %d\nDungeon B%dF", World.player.hp, World.player.maxHp, World.player.attack, World.player.defense, World.player.getLevel(), World.player.floors));
 
+
 		} else {
 			UI.setText("Game over, press ENTER to restart");
 		}
-		
+
+		// If debug is on, note it in the UI
+		if (Globals.debug) {
+			UI.setText(UI.getText() + "\nDEBUG IS ON, TOGGLE WITH F12");
+		}
 	}
 
 	// Render the TileMap from World

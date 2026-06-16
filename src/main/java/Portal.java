@@ -1,12 +1,19 @@
+/*
+ * The Portal is an InteractableEntity that triggers a new map to be generated
+ */
+
 import java.util.*;
 import java.io.*;
 
-// The portal is just an Item that also generates a new map
 public class Portal extends InteractableEntity {
+
+	// Constructor
 	public Portal() throws FileNotFoundException {
 		super();
 		this.initialize();
 	}
+
+	// Code to run when stepped over by the player
 	public void onEnter(LivingEntity entity) {
 		super.onEnter(entity);
 		try {
@@ -19,6 +26,7 @@ public class Portal extends InteractableEntity {
 		}
 	}
 
+	// Set the current sprite
 	public void initialize() throws FileNotFoundException {
 		this.setSprite("portal.png", Crawler.tiles);
 	}

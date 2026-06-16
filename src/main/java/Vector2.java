@@ -1,13 +1,10 @@
 /*
  * Class that stores an (x, y) value
- * While we could use the built-in Point class, Point does not work in the way I would like
- * For example, even though it stores positions as an int, getX() and getY() each return a double for some reason, which would result in an annoying amount of casting elsewhere
- * This is also used for directional movement in addition to positions
+ * While we could use the built-in Point class, we utilize this class for more than just simply storing a position
+ * This is also used for directional movement in addition to positions, so it is better to have a class that is more suited to that use case
  */
 
 import java.io.*;
-
-// TODO: Refactor all code to use this class instead of x/y ints
 
 public class Vector2 implements Serializable {
 
@@ -54,7 +51,7 @@ public class Vector2 implements Serializable {
 		return String.format("(%d,%d)", x, y);
 	}
 
-	// Return a direction vector corresponding the direction that will reduce the distance from this to a point if moved towards
+	// Return a direction vector corresponding the direction that will reduce the distance from this to a given coordinate if moved towards
 	public Vector2 nearestDirectionTo(Vector2 point) {
 		int lowestIndex = 0;
 		// This can be any really high number

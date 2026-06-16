@@ -1,3 +1,7 @@
+/*
+ * This class handles world generation and keep track of entities
+ */
+
 import javafx.scene.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
@@ -49,6 +53,7 @@ public class World {
 	// Save the player to the save file location
 	private static void savePlayer() throws FileNotFoundException {
 		try {
+			// Write using an ObjectOutputStream
 			FileOutputStream FOS = new FileOutputStream(Globals.playerFilePath);
 			ObjectOutputStream OOS = new ObjectOutputStream(FOS);
 			OOS.writeObject(player);
@@ -106,6 +111,8 @@ public class World {
 	// Generate the map using a custom algorithm
 	public static void generateMap(Random r) throws FileNotFoundException {
 
+		Globals.status = Globals.GameStatus.LOADING;
+
 		clearMap();
 		for (int i = 0; i < entities.size(); i++) {
 			entities.set(i, null);
@@ -131,10 +138,6 @@ public class World {
 			roomPositions[i] = new Vector2(r.nextInt(Globals.mapSize.x  - roomSizes[i].x), r.nextInt(Globals.mapSize.y  - roomSizes[i].y));
 		}
 
-		// For testing purposes
-		roomPositions[1] = new Vector2(57, 25);
-		roomSizes[1] = new Vector2(7, 7);
-
 		generateRooms(roomPositions, roomSizes);
 		generateCorridors(roomPositions, roomSizes, r);
 		generateEnemies(roomPositions, roomSizes, r);
@@ -147,6 +150,8 @@ public class World {
 
 		// Call garbage collection
 		System.gc();
+
+		Globals.status = Globals.GameStatus.NORMAL;
 	}
 
 	// Overload that takes a seed to make a Random

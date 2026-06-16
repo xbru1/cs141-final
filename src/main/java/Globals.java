@@ -13,14 +13,11 @@ import javafx.stage.*;
 public class Globals {
 
 	public static String playerFilePath = "./save_data.txt";
-
-	// Possible states of the game
 	public enum GameStatus {
 		NORMAL,
 		LOADING,
 		DEAD
 	}
-
 	// Current state of the game
 	public static GameStatus status = GameStatus.NORMAL;
 	

@@ -1,3 +1,8 @@
+/*
+ * Class for Enemy LivingEntities that move towards and attack the player
+ * They also give the player experience when destroyed
+ */
+
 import java.io.*;
 
 public class Enemy extends LivingEntity implements Updateable {

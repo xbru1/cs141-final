@@ -1,6 +1,5 @@
 /*
  * A LivingEntity has various stats that allow it to perform combat with other LivingEntities
- *
  */
 
 import javafx.scene.image.*;
@@ -22,6 +21,7 @@ public abstract class LivingEntity extends Entity {
 	public int attack;
 
 	// Used to desaturate as this loses health
+	// The transient keyword makes this get ignored when serializing
 	protected transient ColorAdjust ca;
 
 	public int lastDamage = 0; // Turns since last damage taken
@@ -120,9 +120,6 @@ public abstract class LivingEntity extends Entity {
 	// Attack another entity to reduce their HP
 	public void attack(LivingEntity e) {
 		e.damage(this.attack);
-		if (Globals.debug) {
-			IO.println("Attacked HP: " + e.hp);
-		}
 	}
 
 	// Function for receiving damage
@@ -139,5 +136,10 @@ public abstract class LivingEntity extends Entity {
 	// Code to run once when first loaded
 	public void initialize() throws FileNotFoundException {
 		this.ca = new ColorAdjust();
+	}
+
+	// Conver this to a string
+	public String toString() {
+		return super.toString() + String.format(", hp:%d/%d (%d base), attack: %d (%d base), defense: %d (%d base), experience: %d, level: %d", this.hp, this.maxHp, this.maxHpBase,this.attack, this.attackBase, this.defense, this.defenseBase, this.experience, this.getLevel());
 	}
 }

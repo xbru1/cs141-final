@@ -1,3 +1,6 @@
+/*
+ * This class has various utilities for creating certain JavaFX Objects to reduce the amount of boilerplate
+ */
 import java.io.*;
 import javafx.scene.*;
 import javafx.scene.shape.*;
@@ -29,7 +32,7 @@ public class Utils {
 
 	// ImageView helper
 	public static ImageView imageView(String path, int x, int y, int width, int height, Group g) throws FileNotFoundException {
-		// Image image = new Image(new FileInputStream(path));
+		// All images should be located under ./src/main/resources
 		Image image = new Image(Thread.currentThread().getContextClassLoader().getResourceAsStream(path));
 		ImageView iv = new ImageView();
 		iv.setImage(image);

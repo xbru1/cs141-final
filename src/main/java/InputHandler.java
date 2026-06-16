@@ -1,3 +1,8 @@
+/*
+ * Class that handles KeyCode inputs
+ * It contains a keyMap that maps key codes to methods
+ */
+
 import java.util.*;
 import javafx.application.*;
 import javafx.scene.*;
@@ -8,8 +13,7 @@ import java.io.*;
 
 public class InputHandler {
 
-	// Interface that provides a single method that can be run
-	// While we could use the Updateable interface, we may end up adding another method to it later, so it is best we use a separate interface here
+	// Interface that provides a single method that can be run and nothing more
 	private interface Runnable {
 		void run() throws FileNotFoundException;
 	}
@@ -18,7 +22,6 @@ public class InputHandler {
 	public static HashMap<KeyCode, Runnable> keyMap = new HashMap<>();
 
 	// Constructor that initializes with default keybindings
-	// We use anonymous classes and lambda functions here to make handling keybindings simple and concise
 	public InputHandler() throws FileNotFoundException {
 		keyMap.put(KeyCode.F12, () -> Globals.toggleDebug());
 		keyMap.put(KeyCode.W, () -> World.player.move(Vector2.UP));
@@ -30,7 +33,8 @@ public class InputHandler {
 		keyMap.put(KeyCode.DOWN, () -> World.player.move(Vector2.DOWN));
 		keyMap.put(KeyCode.RIGHT, () -> World.player.move(Vector2.RIGHT));
 		keyMap.put(KeyCode.SPACE, () -> World.update());
-		keyMap.put(KeyCode.ENTER, () -> { if (World.player.shouldRemove) { Crawler.startGame(); }});
+		// Only allow the game to be restarted if the status of the game is considered dead (the player has lost all hp)
+		keyMap.put(KeyCode.ENTER, () -> { if (Globals.status == Globals.GameStatus.DEAD) { Crawler.startGame(); }});
 	}
 
 	// Handle a single key press

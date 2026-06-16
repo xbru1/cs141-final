@@ -11,9 +11,10 @@ import java.awt.*;
 
 public abstract class Entity implements Updateable, Renderable, Serializable {
 
-	protected Vector2 position;
+	// Current position expressed as (x,y)
+	public Vector2 position;
 
-	// Transient makes this not get serialized
+	// Transient makes tells java to ignore this when serializing/deserializing
 	public transient ImageView sprite;
 	
 	// Whether this entity should be removed on the next update (whether this Entity is considered dead?)
@@ -76,6 +77,6 @@ public abstract class Entity implements Updateable, Renderable, Serializable {
 
 	// Convert this to a String
 	public String toString() {
-		return String.format("position: %s\n", position.toString());
+		return String.format("position: %s", position.toString());
 	}
 }
