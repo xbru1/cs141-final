@@ -17,8 +17,8 @@ git clone https://github.com/xbru1/cs141-final/
 cd cs141-final
 mvn package
 ```
-The built .jar will be outputted to `./target` <br>
-You can also run `mvn clean javafx:run` to test directly from source
+The built .jar will be placed in `./target`.<br>
+You can also run `mvn clean javafx:run` to test directly from source.
 
 # Program Features
 - Basic graphics using JavaFX
