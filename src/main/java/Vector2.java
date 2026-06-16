@@ -1,17 +1,21 @@
+/*
+ * Class that stores an (x, y) value
+ * While we could use the built-in Point class, Point does not work in the way I would like
+ * For example, even though it stores positions as an int, getX() and getY() each return a double for some reason, which would result in an annoying amount of casting elsewhere
+ * This is also used for directional movement in addition to positions
+ */
+
 import java.io.*;
 
 // TODO: Refactor all code to use this class instead of x/y ints
 
-// Class that stores an (x, y) position
-// While we could use the built-in Point class, Point does not work in the way I would like
-// For example, even though it stores positions as an int, getX() and getY() each return a double for some reason, which would result in an annoying amount of casting elsewhere
 public class Vector2 implements Serializable {
 
 	// The main fields
 	public int x = 0;
 	public int y = 0;
 
-	// Constructor
+	// Constructor from (x,y) values
 	public Vector2(int x, int y) {
 		set(x, y);
 	}
@@ -21,28 +25,31 @@ public class Vector2 implements Serializable {
 		this(0, 0);
 	}
 
-
-
+	// Set the current value of the Vector to 2 ints corresponding to (x,y) 
 	public void set(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public void add(Vector2 vector) {
-		this.x += vector.x;
-		this.y += vector.y;
-	}
-
-	public void subtract(Vector2 vector) {
-		this.x -= vector.x;
-		this.y -= vector.y;
-	}
-
+	// Set the position of this vector to that of another Vector
 	public void set(Vector2 vector) {
 		this.x = vector.x;
 		this.y = vector.y;
 	}
 
+	// Add another Vector to this
+	public void add(Vector2 vector) {
+		this.x += vector.x;
+		this.y += vector.y;
+	}
+
+	// Subtract another Vector from this
+	public void subtract(Vector2 vector) {
+		this.x -= vector.x;
+		this.y -= vector.y;
+	}
+
+	// Conver this Vector to the form of "(x,y)"
 	public String toString() {
 		return String.format("(%d,%d)", x, y);
 	}
@@ -50,13 +57,12 @@ public class Vector2 implements Serializable {
 	// Return a direction vector corresponding the direction that will reduce the distance from this to a point if moved towards
 	public Vector2 nearestDirectionTo(Vector2 point) {
 		int lowestIndex = 0;
-		// This can be any negative number
-		double lowest = 99999;
+		// This can be any really high number
+		double lowest = Double.MAX_VALUE;
 
+		// Find the direction that has the lowest distance to the desired point
 		for (int i = 0; i < DIRECTIONS.length; i++) {
-
 			double distance = distance(difference(this, DIRECTIONS[i]), point);
-
 			if (distance < lowest) {
 				lowest = distance;
 				lowestIndex = i;
@@ -91,6 +97,7 @@ public class Vector2 implements Serializable {
 	public static final Vector2 DOWN = new Vector2(0, -1);
 	public static final Vector2 RIGHT = new Vector2(-1, 0);
 
+	// Array with all 4 directions
 	public static final Vector2[] DIRECTIONS = {
 		Vector2.UP,
 		Vector2.LEFT,

@@ -1,3 +1,9 @@
+/*
+ * The basic Entity class
+ * An entity has a location on the World map, a sprite, and the ability to interact with other entities in various ways depending on its subclass
+ * This is extended into LivingEntity and InteractableEntity, which are further extended into Player/Enemy and Item/Portal respectively
+ */
+
 import javafx.scene.image.*;
 import javafx.scene.*;
 import java.io.*;
@@ -13,16 +19,17 @@ public abstract class Entity implements Updateable, Renderable, Serializable {
 	// Whether this entity should be removed on the next update (whether this Entity is considered dead?)
 	public boolean shouldRemove = false;
 
-	public Entity(Vector2 position){
+	// Constructor from a position
+	public Entity(Vector2 position) {
 		this.position = position;
 	}
-
+	
+	// Constructor from nothing, will initialize with (0,0) as the position
 	public Entity() {
 		this(new Vector2(0, 0));
 	}
 
-	// Moving the entity
-	//public boolean move(int x, int y) {
+	// Translate the entity by a vector
 	public boolean move(Vector2 vector) {
 		if (!World.isWalkable(new Vector2(this.position.x - vector.x, this.position.y - vector.y))) {
 			return false;
@@ -52,19 +59,23 @@ public abstract class Entity implements Updateable, Renderable, Serializable {
 
 	// Code to run before the Entity is removed
 	public void remove() {
+		// This will tell World to set this Entity's reference to null in its Entities ArrayList
 		this.shouldRemove = true;
+		// Make the sprite not visible
 		if (sprite != null) {
 			sprite.setVisible(false);
 		}
+		// We clear all leftover sprites when moving to the next floor, so hopefully this doesn't result in a memory leak
 	}
 
+	// Set the current sprite of this Entity
 	public void setSprite(String path, Group g) throws FileNotFoundException {
-
 		this.sprite = Utils.imageView(path, (Globals.resolutionX / 2 - Globals.tileSize / 2 - this.position.x * Globals.tileSize), (Globals.resolutionY / 2 - Globals.tileSize / 2 - this.position.y * Globals.tileSize), Globals.tileSize, Globals.tileSize, g);
 		sprite.toFront();
 	}
 
+	// Convert this to a String
 	public String toString() {
-		return String.format("%s", position.toString());
+		return String.format("position: %s\n", position.toString());
 	}
 }

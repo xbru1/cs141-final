@@ -27,6 +27,7 @@ public class World {
 
 		// Learned about serialization from https://www.baeldung.com/java-serialization
 		//File playerFile = new File(Globals.playerFilePath);
+		// Attempt to read the Player from a file
 		try {
 			FileInputStream FIS = new FileInputStream(Globals.playerFilePath);
 			ObjectInputStream OIS = new ObjectInputStream(FIS);
@@ -34,6 +35,7 @@ public class World {
 			player.initialize();
 			FIS.close();
 		}
+		// If it fails, we catch and create the file
 		catch (Exception e) {
 			IO.println("No player file present, creating one");
 			player = new Player();
@@ -45,6 +47,7 @@ public class World {
 		update();
 	}
 
+	// Save the player to the save file location
 	private static void savePlayer() throws FileNotFoundException {
 		try {
 			FileOutputStream FOS = new FileOutputStream(Globals.playerFilePath);
@@ -60,8 +63,6 @@ public class World {
 
 	// Updates performed on each turn
 	public static void update() {
-
-		Crawler.renderUI();
 
 		// Handle entities
 		for (int i = 0; i < entities.size(); i++) {
@@ -81,6 +82,7 @@ public class World {
 		turn++;
 		Crawler.tiles.setTranslateX(-player.position.x * Globals.tileSize);
 		Crawler.tiles.setTranslateY(-player.position.y * Globals.tileSize);
+		Crawler.renderUI();
 	}
 
 
@@ -130,17 +132,19 @@ public class World {
 		System.gc();
 	}
 
+	// Overload that takes a seed to make a Random
 	public static void generateMap(int seed) throws FileNotFoundException {
 		Random r = new Random(seed);
 		generateMap(r);
 	}
 
+	// Overload with a random seed
 	public static void generateMap() throws FileNotFoundException {
 		Random r = new Random();
 		generateMap(r);
 	}
 
-	// Set the map to 0
+	// Set all tiles on the map to ID 0
 	private static void clearMap() {
 		for (int x = 0; x < map.length; x++) {
 			for (int y = 0; y < map[x].length; y++) {
@@ -172,8 +176,8 @@ public class World {
 			throw new IllegalArgumentException();
 		}	
 
-		for (int i = 0; i < roomPositions.length; i++) {
-			// Make corridors				
+		// Make the corridors
+		for (int i = 0; i < roomPositions.length; i++) {				
 			if (i != 0) {
 
 				// Get where the corridor should start
@@ -217,11 +221,13 @@ public class World {
 			throw new IllegalArgumentException();
 		}
 
+		// Get a random number of Enemies
 		int enemies = r.nextInt(10) + 5;
 
+		// Spawn the enemies
 		for (int i = 0; i < enemies; i++) {
 			int room = r.nextInt(roomPositions.length);
-			Enemy e = new Enemy();
+			Enemy e = new Enemy((player.floors - 1) * 250);
 			e.position.set(r.nextInt(roomSizes[room].x) + roomPositions[room].x, r.nextInt(roomSizes[room].y) + roomPositions[room].y);
 			entities.add(e);
 			e.render();
@@ -240,7 +246,7 @@ public class World {
 		for (int i = 0; i < enemies; i++) {
 			int room = r.nextInt(roomPositions.length);
 			Item item = new Item();
-			item.position.set(r.nextInt(roomSizes[room].x) + roomPositions[room].x, r.nextInt(roomSizes[room].y) + roomPositions[room].y);
+			item.position.set(findSpawnLocation(roomPositions, roomSizes, r));
 			entities.add(item);
 			item.render();
 		}

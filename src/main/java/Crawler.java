@@ -1,3 +1,8 @@
+/*
+ * The "main" class
+ * This class handles most of the rendering, and also initializes the InputHandler
+ */
+
 import java.util.*;
 import java.io.*;
 import javafx.application.*;
@@ -13,6 +18,7 @@ import javafx.stage.*;
 
 public class Crawler extends Application {
 
+	// The InputHandler does need to be instantiated later
 	public InputHandler IH;
 
 	public static void main(String[] args) {
@@ -30,42 +36,25 @@ public class Crawler extends Application {
 		// The InputHandler needs to be initialized first
 		IH = new InputHandler();
 
-		// Testing enemy, remove once this is finished!
-		/*World.entities.add(new Enemy()); {
-			public void update() {
-				this.experience = 100000;
-				IO.println(this.position.toString());
-				if (World.turn % 2 == 0) {
-					//this.move(new Vector2(0, -1));
-				}
-				super.update();
-			}
-		});
-
-		World.entities.get(0).position.x = 5;*/
-		
-
-
+		// Prepare the UI
 		UI = Utils.text("if this string is empty it won't render for some reason", 50, 50);
-		//Text hello = Utils.text("Hello World!", 50, 50);
 		UI.setFont(Font.font("Helvetica", FontWeight.BOLD, 36));
 		UI.setFill(Color.WHITE);
 
 		// Preparations
 		World.initialize();
 		World.generateMap();
-
 		stage.setTitle("Dungeon Crawler");
 
 		Scene scene = new Scene(root, Globals.resolutionX, Globals.resolutionY, Color.BLACK);
-
 		root.getChildren().add(tiles);
 		renderMap();
 
+		// Show the scene
 		stage.setScene(scene);
 		stage.show();
 
-		// Pass any inputs to the InputHandler
+		// Pass any inputs received to the InputHandler
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
 			try {
 				IH.handleKey(event);
@@ -76,10 +65,9 @@ public class Crawler extends Application {
 		});
 	}
 
-	// Render the UI
+	// Render the UI by updating the text
 	public static void renderUI() {
 		UI.setText(String.format("HP: %d/%d\nAttack: %d\nDefense: %d\nLevel: %d\nDungeon B%dF", World.player.hp, World.player.maxHp, World.player.attack, World.player.defense, World.player.getLevel(), World.player.floors));
-		//UI.setFont(Font.font("Helvetica", FontWeight.BOLD, 36));
 
 	}
 

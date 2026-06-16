@@ -5,7 +5,7 @@ import java.io.*;
 public class Portal extends InteractableEntity {
 	public Portal() throws FileNotFoundException {
 		super();
-		this.setSprite("portal.png", Crawler.tiles);
+		this.initialize();
 	}
 	public void onEnter(LivingEntity entity) {
 		super.onEnter(entity);
@@ -17,5 +17,9 @@ public class Portal extends InteractableEntity {
 		catch(Exception e) {
 			IO.println(e);
 		}
+	}
+
+	public void initialize() throws FileNotFoundException {
+		this.setSprite("portal.png", Crawler.tiles);
 	}
 }

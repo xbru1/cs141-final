@@ -1,3 +1,8 @@
+/*
+ * Global constants and variables
+ * Methods for JavaFX objects are under Utils
+ */
+
 import java.io.*;
 import javafx.scene.*;
 import javafx.scene.shape.*;

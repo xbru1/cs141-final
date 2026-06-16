@@ -1,3 +1,8 @@
+/*
+ * A LivingEntity has various stats that allow it to perform combat with other LivingEntities
+ *
+ */
+
 import javafx.scene.image.*;
 import javafx.scene.*;
 import javafx.scene.effect.*;
@@ -6,7 +11,7 @@ import java.awt.*;
 
 public abstract class LivingEntity extends Entity {
 
-	// TODO: Convert stats to getters/setters so that we can hook into them to call calculateStats()
+	// Various combat stats
 	public int experience;
 	protected int maxHpBase;
 	public int maxHp;
@@ -15,15 +20,13 @@ public abstract class LivingEntity extends Entity {
 	public int defense;
 	protected int attackBase;
 	public int attack;
-	public int attackRange = 0;
 
-	// Transient makes this not get serialized
+	// Used to desaturate as this loses health
 	protected transient ColorAdjust ca;
 
-	public int lastDamage = 0; // Turns since last damage
-	public int healDelay = 3; // Turns that must pass before regeneration begins
+	public int lastDamage = 0; // Turns since last damage taken
 
-	// Constructor from experience
+	// Constructor from experience, base stats, and a position
 	public LivingEntity(int experience, int maxHpBase, int defenseBase, int attackBase, Vector2 position) {
 		this.experience = experience;
 		this.maxHpBase = maxHpBase;
@@ -40,13 +43,17 @@ public abstract class LivingEntity extends Entity {
 
 	}
 
+	// Constructor from experience and base stats
 	public LivingEntity(int experience, int maxHpBase, int defenseBase, int attackBase) {
 		this(experience, maxHpBase, defenseBase, attackBase, new Vector2());
 	}
 
+	// Constructor with experience alone
 	public LivingEntity(int experience) {
 		this(experience, 20, 5, 10);;
 	}
+
+	// Constructo with nothing, will initialize an Entity with 0 experience
 	public LivingEntity() {
 		this(0);
 	}
@@ -61,8 +68,9 @@ public abstract class LivingEntity extends Entity {
 		}
 	}
 
+	// Return the current level based on experience
 	public int getLevel() {
-		return ((int) Math.cbrt(this.experience)) + 1;
+		return ((int) Math.cbrt(this.experience)) + 5;
 	}
 
 	// Code to run on each turn
@@ -78,10 +86,12 @@ public abstract class LivingEntity extends Entity {
 		super.update();
 	}
 
+	// Rendering
 	public void render() {
 		super.render();
 	}
 
+	// Set the current sprite of this Entity
 	public void setSprite(String path, Group g) throws FileNotFoundException {
 		super.setSprite(path, g);
 		this.sprite.setEffect(ca);
@@ -101,11 +111,6 @@ public abstract class LivingEntity extends Entity {
 		return super.move(vector);
 	}
 
-	// Calculate whether another LivingEntity is within this LivingEntity's attack range using the distance formula
-	public boolean canAttack(LivingEntity e) {
-		return Math.abs(Vector2.distance(this.position, e.position)) <= this.attackRange;
-	}
-
 	// Attack another entity to reduce their HP
 	public void attack(LivingEntity e) {
 		e.damage(this.attack);
@@ -120,10 +125,12 @@ public abstract class LivingEntity extends Entity {
 		this.lastDamage = 0;
 	}
 
-	public void getInteractable(InteractableEntity item) {
-		item.onEnter(this);
+	// Activate an InteractableEntity
+	public void getInteractable(InteractableEntity IE) {
+		IE.onEnter(this);
 	}
 
+	// Code to run once when first loaded
 	public void initialize() throws FileNotFoundException {
 		this.ca = new ColorAdjust();
 	}

@@ -1,7 +1,10 @@
+/*
+ *
+ */
+
+
 import javafx.scene.paint.*;
 
-
-// TODO: Make this implement Renderable
 public class Tile {
 
 	public final boolean walkable;

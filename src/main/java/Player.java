@@ -1,3 +1,8 @@
+/*
+ * Class for the Player
+ * The Player differs from other LivingEntities primarily in that it is able to cause World updates when moving
+ */
+
 import javafx.scene.*;
 import java.util.*;
 import javafx.application.*;
@@ -10,6 +15,7 @@ import java.io.*;
 
 public class Player extends LivingEntity {
 
+	// How many times the player has gone through a Portal
 	public int floors;
 	//public ArrayList<Item> inventory = new ArrayList<>();
 
@@ -17,7 +23,6 @@ public class Player extends LivingEntity {
 		super(0, 50, 20, 10);
 		floors = 0;
 		this.initialize();
-		//setSprite("player.png", Crawler.root);
 	}
 
 	// Moving the player involves moving the world around the player since the player is always in the center
