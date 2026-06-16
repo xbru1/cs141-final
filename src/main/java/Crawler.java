@@ -21,16 +21,17 @@ public class Crawler extends Application {
 	// The InputHandler does need to be instantiated later
 	public InputHandler IH;
 
-	public static void main(String[] args) {
-		launch(args);
-	}
-
 	// Tiles and other elements are kept in separate groups
 	public static Group root = new Group();
 	public static Group tiles = new Group();
 	public static Text UI; 
 
-	// Start 
+	// Main
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+	// Start
 	public void start(Stage stage) throws FileNotFoundException {
 
 		// The InputHandler needs to be initialized first
