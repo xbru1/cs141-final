@@ -38,7 +38,7 @@ You can also run `mvn clean javafx:run` to test directly from source
 - Yellow dots are items. Move onto them to fully heal and gain some additional experience.
 - There is a purple portal tile on each floor. Move into it to travel to the next one.
 
-# Controls:
+# Controls
 - WASD/Arrow Keys: Move
 - Space: Pass turn without moving
 - Enter: Start a new game (only after dying)
@@ -47,4 +47,4 @@ You can also run `mvn clean javafx:run` to test directly from source
 - [Maven Assembly Plugin](https://maven.apache.org/plugins/maven-assembly-plugin/): to make building to a .jar easier
 
 # Final Note
-Only the commit history starting from 6/13/2026 is present. Before that date, I had already been working on this in an entirely local Git repository, but the metadata of that repository got corrupted, causing the commit history before that date to be lost.
+Only the commit history starting from 6/13/2026 is present. Before that date, I had already been working on this in an entirely local Git repository. The metadata of that repository got corrupted, causing the commit history before that date to be lost. All code remained intact though, so no other work was lost. 
