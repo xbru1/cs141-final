@@ -1,6 +1,6 @@
 # Dungeon Crawler
 
-This project is a prototype procedurally generated, turn-based, and top-down dungeon crawler game. All code and other assets are free and open source under the MIT License (see LICENSE.txt).
+This project is a functioning prototype of a procedurally generated, turn-based, and top-down dungeon crawler game. All code and other assets are free and open source under the MIT License (see LICENSE.txt).
 
 # Building/Running
 Using pre-built .jar from [Releases](https://github.com/xbru1/cs141-final/releases/tag/1.0.0): `java -jar "crawler.jar"`
