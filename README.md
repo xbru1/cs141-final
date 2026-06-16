@@ -3,8 +3,14 @@
 This project is a functioning prototype of a procedurally generated, turn-based, and top-down dungeon crawler game. All code and other assets are free and open source under the MIT License (see [LICENSE.txt](https://github.com/xbru1/cs141-final/blob/main/LICENSE.txt)).
 
 # Building/Running
-Using pre-built .jar from [Releases](https://github.com/xbru1/cs141-final/releases/tag/1.0.0): `java -jar "crawler.jar"`
 
+## Prequisites
+- Java 25
+
+## Running
+Using [pre-built .jar from Releases](https://github.com/xbru1/cs141-final/releases/tag/1.0.0): `java -jar "crawler.jar"`
+
+## Building from Source
 To build from source, you will need Maven installed:
 ```
 git clone https://github.com/xbru1/cs141-final/
@@ -13,7 +19,7 @@ mvn package
 ```
 `mvn clean javafx:run` to test directly from source
 
-# Features
+# Program Features
 - Basic graphics using JavaFX
 - Simple HUD
 - Keyboard controls
