@@ -46,9 +46,9 @@ public abstract class Entity implements Updateable, Renderable, Serializable {
 
 		render();
 		// Call the code to run on removal if this entity should be removed
-		if (shouldRemove) {
+		/*if (shouldRemove) {
 			remove();
-		}
+		}*/
 	}
 
 	// Code to render the Entity at the appropriate location on screen

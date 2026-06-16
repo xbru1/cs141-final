@@ -42,8 +42,9 @@ public class Crawler extends Application {
 		UI.setFill(Color.WHITE);
 
 		// Preparations
-		World.initialize();
-		World.generateMap();
+		/*World.initialize();
+		World.generateMap();*/
+		startGame();
 		stage.setTitle("Dungeon Crawler");
 
 		Scene scene = new Scene(root, Globals.resolutionX, Globals.resolutionY, Color.BLACK);
@@ -67,8 +68,13 @@ public class Crawler extends Application {
 
 	// Render the UI by updating the text
 	public static void renderUI() {
-		UI.setText(String.format("HP: %d/%d\nAttack: %d\nDefense: %d\nLevel: %d\nDungeon B%dF", World.player.hp, World.player.maxHp, World.player.attack, World.player.defense, World.player.getLevel(), World.player.floors));
+		if (!World.player.shouldRemove) {
+			UI.setText(String.format("HP: %d/%d\nAttack: %d\nDefense: %d\nLevel: %d\nDungeon B%dF", World.player.hp, World.player.maxHp, World.player.attack, World.player.defense, World.player.getLevel(), World.player.floors));
 
+		} else {
+			UI.setText("Game over, press ENTER to restart");
+		}
+		
 	}
 
 	// Render the TileMap from World
@@ -81,6 +87,12 @@ public class Crawler extends Application {
 		root.toFront();
 		World.player.sprite.toFront();
 		tiles.toBack();
+	}
+
+	// Start the game by initializing the World
+	public static void startGame() throws FileNotFoundException {
+		World.initialize();
+		World.generateMap();
 	}
 
 	// Render a single tile

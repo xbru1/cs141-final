@@ -29,8 +29,8 @@ public class InputHandler {
 		keyMap.put(KeyCode.LEFT, () -> World.player.move(Vector2.LEFT));
 		keyMap.put(KeyCode.DOWN, () -> World.player.move(Vector2.DOWN));
 		keyMap.put(KeyCode.RIGHT, () -> World.player.move(Vector2.RIGHT));
-		keyMap.put(KeyCode.L, () -> World.update());
-		keyMap.put(KeyCode.ENTER, () -> World.generateMap());
+		keyMap.put(KeyCode.SPACE, () -> World.update());
+		keyMap.put(KeyCode.ENTER, () -> { if (World.player.shouldRemove) { Crawler.startGame(); }});
 	}
 
 	// Handle a single key press
@@ -48,6 +48,7 @@ public class InputHandler {
 					IO.println(e); 
 				}
 			}
+			Crawler.renderUI();
 		}
 		
 		// Output the key pressed if debug is enabled

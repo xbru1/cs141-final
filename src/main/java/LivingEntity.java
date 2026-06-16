@@ -79,11 +79,17 @@ public abstract class LivingEntity extends Entity {
 		lastDamage++;
 		calculateStats();
 		if (this.hp <= 0) {
-			Crawler.tiles.getChildren().remove(sprite);
-			shouldRemove = true;
+			//Crawler.tiles.getChildren().remove(sprite);
+			this.remove();
 		}
 		ca.setSaturation(-1.0 + ((double) this.hp / this.maxHp));
 		super.update();
+	}
+
+	// Code to run when removed
+	public void remove() {
+		Crawler.tiles.getChildren().remove(sprite);
+		this.shouldRemove = true;
 	}
 
 	// Rendering

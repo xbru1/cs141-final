@@ -26,7 +26,6 @@ public class World {
 	public static void initialize() throws FileNotFoundException {
 
 		// Learned about serialization from https://www.baeldung.com/java-serialization
-		//File playerFile = new File(Globals.playerFilePath);
 		// Attempt to read the Player from a file
 		try {
 			FileInputStream FIS = new FileInputStream(Globals.playerFilePath);
@@ -35,7 +34,7 @@ public class World {
 			player.initialize();
 			FIS.close();
 		}
-		// If it fails, we catch and create the file
+		// If it fails, we catch and attempt to create the file instead
 		catch (Exception e) {
 			IO.println("No player file present, creating one");
 			player = new Player();
@@ -64,16 +63,34 @@ public class World {
 	// Updates performed on each turn
 	public static void update() {
 
+		int playerID = -1;
+
 		// Handle entities
 		for (int i = 0; i < entities.size(); i++) {
-			if (entities.get(i) != null) {
-				entities.get(i).update();
+			Entity e = entities.get(i);
+			if (e != null) {
+
+				// Player needs to be updated LAST
+				if (entities.get(i) instanceof Player) {
+					playerID = i;
+					continue;
+				}
+
+				e.update();
+
+				if (e instanceof LivingEntity && ((LivingEntity) e).hp <= 0) {
+					e.remove();
+				}
 
 				// Remove entity it should be removed
-				if (entities.get(i).shouldRemove) {
+				if (e.shouldRemove) {
 					entities.set(i, null);
 				}
 			}
+		}
+
+		if (playerID >= 0) {
+			entities.get(playerID).update();
 		}
 
 		// Clean up any null pointers in Entities

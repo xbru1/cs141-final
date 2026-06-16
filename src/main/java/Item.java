@@ -27,7 +27,7 @@ public class Item extends InteractableEntity {
 		if (entity.hp < entity.maxHp) {
 			entity.hp = entity.maxHp;
 		}
-		this.shouldRemove = true;
+		this.remove();
 	}
 
 	public void initialize() throws FileNotFoundException {

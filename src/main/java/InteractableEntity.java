@@ -8,6 +8,6 @@ public abstract class InteractableEntity extends Entity {
 	}
 
 	public void onEnter(LivingEntity entity) {
-
+		this.remove();
 	}
 }
