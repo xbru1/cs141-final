@@ -53,6 +53,13 @@ public class Player extends LivingEntity {
 
 	public void remove() {
 		IO.println("Game over");
+		// Delete the save data when the player dies
+		try {
+			File playerFile = new File(Globals.playerFilePath);
+			playerFile.delete();
+		} catch (Exception e) {
+			IO.println(e);
+		}
 		super.remove();
 	}
 	
