@@ -17,7 +17,8 @@ public abstract class LivingEntity extends Entity {
 	public int attack;
 	public int attackRange = 0;
 
-	protected ColorAdjust ca = new ColorAdjust();
+	// Transient makes this not get serialized
+	protected transient ColorAdjust ca;
 
 	public int lastDamage = 0; // Turns since last damage
 	public int healDelay = 3; // Turns that must pass before regeneration begins
@@ -28,10 +29,15 @@ public abstract class LivingEntity extends Entity {
 		this.maxHpBase = maxHpBase;
 		this.defenseBase = defenseBase;
 		this.attackBase = attackBase;
-
 		calculateStats();
 		this.hp = this.maxHp;
 		this.position = position;
+		try {
+			this.initialize();
+		} catch (Exception e) {
+			IO.println(e);
+		}
+
 	}
 
 	public LivingEntity(int experience, int maxHpBase, int defenseBase, int attackBase) {
@@ -116,5 +122,9 @@ public abstract class LivingEntity extends Entity {
 
 	public void getInteractable(InteractableEntity item) {
 		item.onEnter(this);
+	}
+
+	public void initialize() throws FileNotFoundException {
+		this.ca = new ColorAdjust();
 	}
 }

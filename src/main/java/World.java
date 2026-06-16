@@ -24,10 +24,38 @@ public class World {
 	public static Player player;
 
 	public static void initialize() throws FileNotFoundException {
-		player = new Player();
+
+		// Learned about serialization from https://www.baeldung.com/java-serialization
+		//File playerFile = new File(Globals.playerFilePath);
+		try {
+			FileInputStream FIS = new FileInputStream(Globals.playerFilePath);
+			ObjectInputStream OIS = new ObjectInputStream(FIS);
+			player = (Player) OIS.readObject();
+			player.initialize();
+			FIS.close();
+		}
+		catch (Exception e) {
+			IO.println("No player file present, creating one");
+			player = new Player();
+			savePlayer();
+		}
+
 		entities.add(player);
 		IO.println("Initializing world...");
 		update();
+	}
+
+	private static void savePlayer() throws FileNotFoundException {
+		try {
+			FileOutputStream FOS = new FileOutputStream(Globals.playerFilePath);
+			ObjectOutputStream OOS = new ObjectOutputStream(FOS);
+			OOS.writeObject(player);
+			OOS.flush();
+			OOS.close();
+		} catch (Exception e) {
+			IO.println(e);
+		}
+
 	}
 
 	// Updates performed on each turn
@@ -68,7 +96,7 @@ public class World {
 			entities.add(player);
 		}
 
-		// Minimum of 8 rooms per map, up to 15 total rooms
+		// Minimum of 8 rooms per map, up to 16 total rooms
 		int rooms = r.nextInt(9) + 8;
 		//int rooms = 2;
 
@@ -95,7 +123,11 @@ public class World {
 		generatePortal(roomPositions, roomSizes, r);
 
 		Crawler.renderMap();
+		savePlayer();
 		update();
+
+		// Call garbage collection
+		System.gc();
 	}
 
 	public static void generateMap(int seed) throws FileNotFoundException {
@@ -214,7 +246,7 @@ public class World {
 		}
 	}
 
-	// Spawn the portal
+	// Spawn the portal to the next floor
 	private static void generatePortal(Vector2[] roomPositions, Vector2[] roomSizes, Random r) throws FileNotFoundException {
 		if (roomPositions.length != roomSizes.length) {
 			throw new IllegalArgumentException();
@@ -238,7 +270,7 @@ public class World {
 	}
 
 	// Check whether or not a given tile can be walked on to
-	// A tile can be walked onto if it is walkable, not outside the bounds of the map, and does not contain an entity
+	// A tile can be walked onto if it is walkable, not outside the bounds of the map, and does not contain an Entity that is not an InteractableEntity
 	public static boolean isWalkable(Vector2 position) {
 
 		return !((entityAt(position) && !(getEntityAt(position) instanceof InteractableEntity)) || position.x < 0 || position.x > Globals.mapSize.x - 1 || position.y < 0 || position.y > Globals.mapSize.y - 1 || !tileIndex[map[position.x][position.y]].walkable);
@@ -251,7 +283,7 @@ public class World {
 		return !(getEntityAt(position) == null);
 	}
 
-	// Returns the entity at a given position
+	// Returns an Entity located at a given position, if there is one
 	public static Entity getEntityAt(Vector2 position) {
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i) != null && Vector2.equals(entities.get(i).position, position)) {
@@ -261,6 +293,7 @@ public class World {
 		return null;
 	}
 
+	// Returns the LivingEntity at a given position, if there is one
 	public static LivingEntity getLivingEntityAt(Vector2 position) {
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i) != null && (entities.get(i) instanceof LivingEntity) && Vector2.equals(entities.get(i).position, position)) {
@@ -270,6 +303,7 @@ public class World {
 		return null;
 	}
 
+	// Returns an InteractableEntity located at a given position, if there is one
 	public static InteractableEntity getInteractableAt(Vector2 position) {
 		for (int i = 0; i < entities.size(); i++) {
 			if (entities.get(i) != null && (entities.get(i) instanceof InteractableEntity) && Vector2.equals(entities.get(i).position, position)) {
@@ -278,8 +312,4 @@ public class World {
 		}
 		return null;
 	}
-
-	/*public Entity[] scanArea() {
-
-	}*/
 }

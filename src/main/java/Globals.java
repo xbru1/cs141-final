@@ -7,12 +7,17 @@ import javafx.stage.*;
 
 public class Globals {
 
-	// 
+	public static String playerFilePath = "./save_data.txt";
+
+	// Possible states of the game
 	public enum GameStatus {
 		NORMAL,
 		LOADING,
-		MENU
+		DEAD
 	}
+
+	// Current state of the game
+	public static GameStatus status = GameStatus.NORMAL;
 	
 	// Automatically determine the screen resolution
 	public static final int resolutionX = (int) Screen.getPrimary().getVisualBounds().getWidth();

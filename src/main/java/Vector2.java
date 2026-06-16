@@ -1,9 +1,11 @@
+import java.io.*;
+
 // TODO: Refactor all code to use this class instead of x/y ints
 
 // Class that stores an (x, y) position
 // While we could use the built-in Point class, Point does not work in the way I would like
 // For example, even though it stores positions as an int, getX() and getY() each return a double for some reason, which would result in an annoying amount of casting elsewhere
-public class Vector2 {
+public class Vector2 implements Serializable {
 
 	// The main fields
 	public int x = 0;

@@ -10,10 +10,12 @@ public class Portal extends InteractableEntity {
 	public void onEnter(LivingEntity entity) {
 		super.onEnter(entity);
 		try {
+			World.player.floors++;
 			World.generateMap();
+
 		} 
 		catch(Exception e) {
-
+			IO.println(e);
 		}
 	}
 }

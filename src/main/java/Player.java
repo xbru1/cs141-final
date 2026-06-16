@@ -8,13 +8,16 @@ import javafx.scene.layout.*;
 import java.io.*;
 
 
-public class Player extends LivingEntity implements Serializable {
+public class Player extends LivingEntity {
 
+	public int floors;
 	//public ArrayList<Item> inventory = new ArrayList<>();
 
 	public Player() throws FileNotFoundException {
 		super(0, 50, 20, 10);
-		setSprite("player.png", Crawler.root);
+		floors = 0;
+		this.initialize();
+		//setSprite("player.png", Crawler.root);
 	}
 
 	// Moving the player involves moving the world around the player since the player is always in the center
@@ -40,7 +43,9 @@ public class Player extends LivingEntity implements Serializable {
 
 	public void update() {
 		super.update();
-		sprite.toFront();
+		if (this.sprite != null) {
+			sprite.toFront();
+		}
 	}
 
 	// Yes, this is empty. The player sprite is always at the center of the screen, so we don't need to update its position.
@@ -49,5 +54,12 @@ public class Player extends LivingEntity implements Serializable {
 	public void remove() {
 		IO.println("Game over");
 		super.remove();
+	}
+	
+	// Code to run when being read in from a file
+	public void initialize() throws FileNotFoundException {
+		super.initialize();
+		setSprite("player.png", Crawler.root);
+		this.calculateStats();
 	}
 }

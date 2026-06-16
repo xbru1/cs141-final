@@ -3,16 +3,12 @@ import javafx.scene.*;
 import java.io.*;
 import java.awt.*;
 
-public abstract class Entity implements Updateable, Renderable {
+public abstract class Entity implements Updateable, Renderable, Serializable {
 
 	protected Vector2 position;
 
-	//public int x;
-	//public int y;
-
-	// TODO: Make sprite protected and add an imagePath String to hide the implementation of this
-	public ImageView sprite;
-	//public Group group;
+	// Transient makes this not get serialized
+	public transient ImageView sprite;
 	
 	// Whether this entity should be removed on the next update (whether this Entity is considered dead?)
 	public boolean shouldRemove = false;

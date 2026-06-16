@@ -78,7 +78,7 @@ public class Crawler extends Application {
 
 	// Render the UI
 	public static void renderUI() {
-		UI.setText(String.format("HP: %d/%d\nAttack: %d\nDefense: %d\nLevel: %d", World.player.hp, World.player.maxHp, World.player.attack, World.player.defense, World.player.getLevel()));
+		UI.setText(String.format("HP: %d/%d\nAttack: %d\nDefense: %d\nLevel: %d\nDungeon B%dF", World.player.hp, World.player.maxHp, World.player.attack, World.player.defense, World.player.getLevel(), World.player.floors));
 		//UI.setFont(Font.font("Helvetica", FontWeight.BOLD, 36));
 
 	}
@@ -93,7 +93,6 @@ public class Crawler extends Application {
 		root.toFront();
 		World.player.sprite.toFront();
 		tiles.toBack();
-
 	}
 
 	// Render a single tile

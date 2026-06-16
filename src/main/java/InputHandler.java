@@ -39,15 +39,17 @@ public class InputHandler {
 		KeyCode key = input.getCode();
 		Group tiles = Crawler.tiles;
 
-		try {
-			keyMap.get(key).run();
-		} catch (Exception e) {
-			// Ignore any NullPointerExceptions, as they result from pressing a key that is not in the keyMap
-			if (e.getClass() != NullPointerException.class) {
-				IO.println(e); 
+		if (Globals.status != Globals.GameStatus.LOADING) {
+			try {
+				keyMap.get(key).run();
+			} catch (Exception e) {
+				// Ignore any NullPointerExceptions, as they result from pressing a key that is not in the keyMap
+				if (e.getClass() != NullPointerException.class) {
+					IO.println(e); 
+				}
 			}
 		}
-
+		
 		// Output the key pressed if debug is enabled
 		if (Globals.debug) {
 			IO.println("Key pressed: " + input.getCode().toString());
