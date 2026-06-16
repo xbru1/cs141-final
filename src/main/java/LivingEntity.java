@@ -50,6 +50,9 @@ public abstract class LivingEntity extends Entity {
 		this.maxHp = (int) ((getLevel() + 5) * maxHpBase * 5 / 100) + 3;
 		this.defense = (int) ((getLevel() + 5) * defenseBase * 5 / 100) + 3;
 		this.attack = (int) ((getLevel() + 5) * attackBase * 5 / 100) + 3;
+		if (this.hp > this.maxHp) {
+			this.hp = this.maxHp;
+		}
 	}
 
 	public int getLevel() {
@@ -111,7 +114,7 @@ public abstract class LivingEntity extends Entity {
 		this.lastDamage = 0;
 	}
 
-	public void getItem(Item item) {
-		item.pickup(this);
+	public void getInteractable(InteractableEntity item) {
+		item.onEnter(this);
 	}
 }

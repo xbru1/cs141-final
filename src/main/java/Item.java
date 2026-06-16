@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Item extends Entity {
+public class Item extends InteractableEntity {
 
 	public Item() throws FileNotFoundException {
 		super();
@@ -9,15 +9,15 @@ public class Item extends Entity {
 	}
 
 	// Items permanently boost stats and fully heal when picked up
-	public void pickup(LivingEntity e) {
+	public void onEnter(LivingEntity entity) {
 
 		Random r = new Random();
-		e.maxHpBase += r.nextInt(10);
-		e.defenseBase += r.nextInt(8);
-		e.attackBase += r.nextInt(8);
-		e.calculateStats();
-		if (e.hp < e.maxHp) {
-			e.hp = e.maxHp;
+		entity.maxHpBase += r.nextInt(10);
+		entity.defenseBase += r.nextInt(8);
+		entity.attackBase += r.nextInt(8);
+		entity.calculateStats();
+		if (entity.hp < entity.maxHp) {
+			entity.hp = entity.maxHp;
 		}
 		this.shouldRemove = true;
 	}

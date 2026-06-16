@@ -26,8 +26,8 @@ public class Player extends LivingEntity implements Serializable {
 				IO.println("Player Pos: " + this.position.toString());
 			}
 
-			if (World.getItemAt(this.position) != null) {
-				World.getItemAt(this.position).pickup(this);
+			if (World.getInteractableAt(this.position) != null) {
+				World.getInteractableAt(this.position).onEnter(this);
 			}
 
 			World.update();
