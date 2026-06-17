@@ -9,7 +9,7 @@ This project is a functioning prototype of a procedurally generated, turn-based,
 - Maven (if building from source)
 
 ## Running
-Using [pre-built .jar from Releases](https://github.com/xbru1/cs141-final/releases/tag/1.0.0): `java -jar "crawler.jar"`
+Using [pre-built .jar from Releases](https://github.com/xbru1/cs141-final/releases/): `java -jar "crawler.jar"`
 
 ## Building from Source
 ```
