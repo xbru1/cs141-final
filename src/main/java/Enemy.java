@@ -5,7 +5,7 @@
 
 import java.io.*;
 
-public class Enemy extends LivingEntity implements Updateable {
+public class Enemy extends LivingEntity {
 
 	// Constructor
 	public Enemy(int experience) throws FileNotFoundException {
