@@ -69,8 +69,8 @@ public class Vector2 implements Serializable {
 	}
 
 	// Check for equality
-	public static boolean equals(Vector2 v1, Vector2 v2) {
-		return (v1.x == v2.x) && (v1.y == v2.y);
+	public static boolean equals(Vector2 a, Vector2 b) {
+		return (a.x == b.x) && (a.y == b.y);
 	}
 
 	// Return a new Vector2 that is the sum of two vectors
