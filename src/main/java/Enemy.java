@@ -36,7 +36,7 @@ public class Enemy extends LivingEntity {
 		}
 	}
 
-	// Heal the player a little when this is destroyed
+	// Give the player experience when this is destroyed
 	public void remove() {
 		World.player.experience += (this.getLevel() + 5) * 4;
 		super.remove();
