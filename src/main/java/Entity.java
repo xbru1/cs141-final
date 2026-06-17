@@ -71,7 +71,8 @@ public abstract class Entity implements Updateable, Renderable, Serializable {
 
 	// Set the current sprite of this Entity
 	public void setSprite(String path, Group g) throws FileNotFoundException {
-		this.sprite = Utils.imageView(path, (Globals.resolutionX / 2 - Globals.tileSize / 2 - this.position.x * Globals.tileSize), (Globals.resolutionY / 2 - Globals.tileSize / 2 - this.position.y * Globals.tileSize), Globals.tileSize, Globals.tileSize, g);
+		// Calculate where this should be positioned
+		this.sprite = Utils.imageView(path, (Globals.resolution.x / 2 - Globals.tileSize / 2 - this.position.x * Globals.tileSize), (Globals.resolution.y / 2 - Globals.tileSize / 2 - this.position.y * Globals.tileSize), Globals.tileSize, Globals.tileSize, g);
 		sprite.toFront();
 	}
 

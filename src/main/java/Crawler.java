@@ -46,7 +46,7 @@ public class Crawler extends Application {
 		startGame();
 		stage.setTitle("Dungeon Crawler");
 
-		Scene scene = new Scene(root, Globals.resolutionX, Globals.resolutionY, Color.BLACK);
+		Scene scene = new Scene(root, Globals.resolution.x, Globals.resolution.y, Color.BLACK);
 		root.getChildren().add(tiles);
 		renderMap();
 
@@ -83,8 +83,8 @@ public class Crawler extends Application {
 
 	// Render the TileMap from World
 	public static void renderMap() throws FileNotFoundException {
-		for (int x = 0; x < Globals.mapSizeX; x++) {
-			for (int y = 0; y < Globals.mapSizeY; y++) {
+		for (int x = 0; x < Globals.mapSize.x; x++) {
+			for (int y = 0; y < Globals.mapSize.y; y++) {
 				renderTile(World.tileIndex[World.map[x][y]].texturePath, x, y);
 			}
 		}
@@ -101,7 +101,8 @@ public class Crawler extends Application {
 
 	// Render a single tile
 	private static void renderTile(String path, int i, int o) throws FileNotFoundException {
-		ImageView r = Utils.imageView(path, Globals.tileSize * i + Globals.resolutionX / 2 - Globals.tileSize / 2, Globals.tileSize * o + Globals.resolutionY / 2 - Globals.tileSize / 2, Globals.tileSize, Globals.tileSize);
+		// Calculate where the tile should be positioned on the screen
+		ImageView r = Utils.imageView(path, Globals.tileSize * i + Globals.resolution.x / 2 - Globals.tileSize / 2, Globals.tileSize * o + Globals.resolution.y / 2 - Globals.tileSize / 2, Globals.tileSize, Globals.tileSize);
 		r.toBack();
 	}
 }
