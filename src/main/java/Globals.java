@@ -12,7 +12,10 @@ import javafx.stage.*;
 
 public class Globals {
 
+	// Path where save data will be stored
 	public static String playerFilePath = "./save_data.txt";
+
+	// Possible states for the program
 	public enum GameStatus {
 		NORMAL,
 		LOADING,
